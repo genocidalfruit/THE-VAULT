@@ -4,19 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "454a053e2e8da3fe",
+        "id": "67116901d70011df",
         "type": "tabs",
         "children": [
           {
-            "id": "19700618aeb59ecf",
+            "id": "6acbba767b67b2c5",
             "type": "leaf",
             "state": {
-              "type": "image",
-              "state": {
-                "file": "RESOURCES/Pasted image 20250625165433.png"
-              },
-              "icon": "lucide-image",
-              "title": "Pasted image 20250625165433"
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "New tab"
             }
           }
         ]
@@ -163,19 +161,19 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "19700618aeb59ecf",
+  "active": "6acbba767b67b2c5",
   "lastOpenFiles": [
+    "Automation/GIT REPO LLM FORMATTING 1.md",
+    "RESOURCES/Pasted image 20250625165433.png",
     "RESOURCES/Pasted image 20250625164623.png",
     "ROUGH NOTES/SAMPLE.md",
     "TAGS/Tech.md",
     "TAGS/Gym.md",
     "LLM/RAG 1.md",
-    "RESOURCES/Pasted image 20250625165433.png",
     "Gym/FOREARM WORKOUTS 1.md",
     "RESOURCES",
     "LLM",
     "README.md",
-    "Automation/GIT REPO LLM FORMATTING 1.md",
     "Finance/BUDGETING 1.md",
     "Gym/PPL SPLIT 1.md",
     "Automation",
