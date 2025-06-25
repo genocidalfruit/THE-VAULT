@@ -1,0 +1,81 @@
+name: Daily Markdown Formatter with Gemini
+
+on:
+  schedule:
+    - cron: "0 9 * * *" # Run daily at 9 AM UTC
+  workflow_dispatch: # Allow manual triggering
+  push:
+    branches: [main, develop]
+    paths: ["**.md", "**.markdown"]
+
+jobs:
+  format-markdown:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Fetch full history for tracking
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      - name: Install dependencies
+        run: |
+          pip install google-generativeai markdown2 python-dateutil
+
+      - name: Check if daily run is needed
+        id: check-daily
+        run: |
+          # Check if .github/last-format-run exists and if it's been 24 hours
+          if [ -f .github/last-format-run ]; then
+            last_run=$(cat .github/last-format-run)
+            current_time=$(date +%s)
+            time_diff=$((current_time - last_run))
+            hours_diff=$((time_diff / 3600))
+            
+            if [ $hours_diff -lt 24 ] && [ "${{ github.event_name }}" != "workflow_dispatch" ] && [ "${{ github.event_name }}" != "push" ]; then
+              echo "skip=true" >> $GITHUB_OUTPUT
+              echo "Last run was $hours_diff hours ago, skipping..."
+            else
+              echo "skip=false" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Get changed markdown files
+        id: changed-files
+        if: steps.check-daily.outputs.skip != 'true'
+        uses: tj-actions/changed-files@v44
+        with:
+          files: |
+            **/*.md
+            **/*.markdown
+          since_last_remote_commit: true
+
+      - name: Format changed files
+        if: steps.check-daily.outputs.skip != 'true' && (steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+          RUN_MODE: ${{ github.event_name == 'schedule' && 'full' || github.event_name == 'workflow_dispatch' && 'full' || 'changed' }}
+        run: python .github/scripts/format_markdown.py
+
+      - name: Update last run timestamp
+        if: steps.check-daily.outputs.skip != 'true' && (steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        run: |
+          mkdir -p .github
+          date +%s > .github/last-format-run
+
+      - name: Commit changes
+        if: steps.check-daily.outputs.skip != 'true' && (steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git diff --staged --quiet || git commit -m "Auto-format markdown files with Gemini [$(date +'%Y-%m-%d %H:%M')]"
+          git push
