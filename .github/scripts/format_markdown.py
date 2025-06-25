@@ -79,6 +79,7 @@ def format_markdown_with_gemini(content, file_path):
     7. Return only the formatted markdown without any additional commentary. Do not wrap it in "markdown ``````" or any other code block.
     8. Add a little flair in the formatting to make it visually appealing (Relevant emojis for headings, spacing, etc.)
     9. In case the file is empty, do not return any content.
+    10. Do not replace links with any sort of text, keep them as they are.
     
     IMPORTANT: Do not change the original content, only the formatting. The goal is to enhance readability and consistency.
     
