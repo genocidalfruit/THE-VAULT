@@ -76,13 +76,14 @@ def format_markdown_with_gemini(content, file_path):
     4. Improve readability while maintaining the original content
     5. Ensure code blocks have proper language specification
     6. Maintain consistent spacing between sections
-    7. Return only the formatted markdown without any additional commentary. Do not wrap it in "markdown ``` ```" or any other code block.
+    7. Return only the formatted markdown without any additional commentary. Do not wrap it in "markdown ``````" or any other code block.
     8. Add a little flair in the formatting to make it visually appealing (Relevant emojis for headings, spacing, etc.)
     9. In case the file is empty, do not return any content.
     
     IMPORTANT: Do not change the original content, only the formatting. The goal is to enhance readability and consistency.
     
     Do not go overboard with the emojis, keep it professional and relevant to the content. Make sure not use them for non-heading bullet points or lists.
+    Do not use emojis in code blocks or inline code. Do not use emojis for the 'Tags' section.
 
     Content to format:
     {content}
@@ -127,9 +128,9 @@ def process_markdown_files():
     markdown_files = list(set(markdown_files))
     
     # Apply comprehensive filtering
-    # First exclude system/build directories
+    # First exclude system/build directories and "Rough Notes" folder
     markdown_files = [f for f in markdown_files if not any(skip in f for skip in [
-        '.git/', 'node_modules/', 'vendor/', 'build/', 'dist/'
+        '.git/', '.github/', '.obsidian/', '.trash/', 'Rough Notes/'
     ])]
     
     # Then apply custom filtering for README and dot folders
