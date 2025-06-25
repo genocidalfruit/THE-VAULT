@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "67116901d70011df",
+        "id": "2db102ae5472a446",
         "type": "tabs",
         "children": [
           {
-            "id": "6acbba767b67b2c5",
+            "id": "ee25b5df6a19b6df",
             "type": "leaf",
             "state": {
               "type": "empty",
@@ -161,12 +161,12 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "6acbba767b67b2c5",
+  "active": "ee25b5df6a19b6df",
   "lastOpenFiles": [
+    "ROUGH NOTES/SAMPLE.md",
     "Automation/GIT REPO LLM FORMATTING 1.md",
     "RESOURCES/Pasted image 20250625165433.png",
     "RESOURCES/Pasted image 20250625164623.png",
-    "ROUGH NOTES/SAMPLE.md",
     "TAGS/Tech.md",
     "TAGS/Gym.md",
     "LLM/RAG 1.md",
