@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "a9c18584b35b253b",
+        "id": "454a053e2e8da3fe",
         "type": "tabs",
         "children": [
           {
-            "id": "54052d0fb6a15020",
+            "id": "19700618aeb59ecf",
             "type": "leaf",
             "state": {
               "type": "empty",
@@ -161,7 +161,7 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "54052d0fb6a15020",
+  "active": "19700618aeb59ecf",
   "lastOpenFiles": [
     "TAGS/Tech.md",
     "LLM/RAG 1.md",
