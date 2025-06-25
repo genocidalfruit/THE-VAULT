@@ -1,5 +1,4 @@
-```markdown
-🏋️‍♀️ Tags: [[Gym]] 🏋️‍♂️
+Tags: [[Gym]]
 
 #### 🗓️ Monday: Push A (Strength – Chest, Shoulders, Triceps) 💪
 
@@ -60,4 +59,3 @@
 - Hip Thrust or Glute Bridge
 - Calf Raise
 - Core: Pallof Press
-```

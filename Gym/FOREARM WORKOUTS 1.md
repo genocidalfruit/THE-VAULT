@@ -1,4 +1,3 @@
-```markdown
 Tags: [[Gym]]
 
 💪 # Forearm Exercises
@@ -16,4 +15,3 @@ Tags: [[Gym]]
 ## 💪 Brachioradialis
 
 - Reverse grip curls
-```

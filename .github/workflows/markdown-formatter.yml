@@ -4,9 +4,6 @@ on:
   schedule:
     - cron: "0 9 * * *" # Run daily at 9 AM UTC
   workflow_dispatch: # Allow manual triggering
-  push:
-    branches: [main, develop]
-    paths: ["**.md", "**.markdown"]
 
 jobs:
   format-markdown:
@@ -37,7 +34,7 @@ jobs:
             time_diff=$((current_time - last_run))
             hours_diff=$((time_diff / 3600))
             
-            if [ $hours_diff -lt 24 ] && [ "${{ github.event_name }}" != "workflow_dispatch" ] && [ "${{ github.event_name }}" != "push" ]; then
+            if [ $hours_diff -lt 24 ] && [ "${{ github.event_name }}" != "workflow_dispatch" ]; then
               echo "skip=true" >> $GITHUB_OUTPUT
               echo "Last run was $hours_diff hours ago, skipping..."
             else

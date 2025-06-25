@@ -75,14 +75,15 @@ def format_markdown_with_gemini(content, file_path):
     3. Standardize list formatting (use - for bullets, numbers only when order matters)
     4. Improve readability while maintaining the original content
     5. Ensure code blocks have proper language specification
-    6. Fix any broken links or image references
-    7. Maintain consistent spacing between sections
-    8. Return only the formatted markdown without any additional commentary
-    9. Add a little flair in the formatting to make it visually appealing (Relevant emojis for headings, spacing, etc.)
-    10. In case the file is empty, do not return any content.
+    6. Maintain consistent spacing between sections
+    7. Return only the formatted markdown without any additional commentary. Do not wrap it in "markdown ``` ```" or any other code block.
+    8. Add a little flair in the formatting to make it visually appealing (Relevant emojis for headings, spacing, etc.)
+    9. In case the file is empty, do not return any content.
     
     IMPORTANT: Do not change the original content, only the formatting. The goal is to enhance readability and consistency.
     
+    Do not go overboard with the emojis, keep it professional and relevant to the content. Make sure not use them for non-heading bullet points or lists.
+
     Content to format:
     {content}
     """
