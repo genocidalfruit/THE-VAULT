@@ -11,10 +11,12 @@
             "id": "19700618aeb59ecf",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
-              "icon": "lucide-file",
-              "title": "New tab"
+              "type": "image",
+              "state": {
+                "file": "RESOURCES/Pasted image 20250625165433.png"
+              },
+              "icon": "lucide-image",
+              "title": "Pasted image 20250625165433"
             }
           }
         ]
@@ -163,14 +165,14 @@
   },
   "active": "19700618aeb59ecf",
   "lastOpenFiles": [
+    "RESOURCES/Pasted image 20250625164623.png",
+    "ROUGH NOTES/SAMPLE.md",
     "TAGS/Tech.md",
+    "TAGS/Gym.md",
     "LLM/RAG 1.md",
     "RESOURCES/Pasted image 20250625165433.png",
-    "ROUGH NOTES/SAMPLE.md",
-    "TAGS/Gym.md",
     "Gym/FOREARM WORKOUTS 1.md",
     "RESOURCES",
-    "RESOURCES/Pasted image 20250625164623.png",
     "LLM",
     "README.md",
     "Automation/GIT REPO LLM FORMATTING 1.md",

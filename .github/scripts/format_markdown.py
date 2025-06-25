@@ -131,7 +131,7 @@ def process_markdown_files():
     # Apply comprehensive filtering
     # First exclude system/build directories and "Rough Notes" folder
     markdown_files = [f for f in markdown_files if not any(skip in f for skip in [
-        '.git/', '.github/', '.obsidian/', '.trash/', 'Rough Notes/'
+        '.git/', '.github/', '.obsidian/', '.trash/', 'ROUGH NOTES/', 'RESOURCES/'
     ])]
     
     # Then apply custom filtering for README and dot folders
