@@ -1,6 +1,6 @@
-Tags: [[Gym]]
+# 💪 Forearm Exercises
 
-💪 # Forearm Exercises
+Tags: [[Gym]]
 
 🔗 Link: [YouTube Short](https://youtube.com/shorts/OG131ahIxEs?si=eiR3hhaRlGidA30W)
 
@@ -12,6 +12,6 @@ Tags: [[Gym]]
 
 - First knuckle pushups
 
-## 💪 Brachioradialis
+## 🦾 Brachioradialis
 
 - Reverse grip curls
