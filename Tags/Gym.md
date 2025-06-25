@@ -1,5 +1,11 @@
-# Workout Lists
+```markdown
+# 💪 Workout Lists
+
 [[FOREARM WORKOUTS 1]]
 
-# Splits
+<br>
+
+# 🗓️ Splits
+
 [[PPL SPLIT 1]]
+```
