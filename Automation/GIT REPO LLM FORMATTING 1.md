@@ -15,6 +15,8 @@ cron: "0 9 * * *" # Run daily at 9 AM UTC
 - Update last run timestamp
 - Commit changes
 
+<br>
+
 ## 🐍 2. Python Script
 
 Utilizes the Gemini API to analyze files. Based on a provided prompt, it applies formatting and styling enhancements. ✨
