@@ -4,10 +4,6 @@ on:
   schedule:
     - cron: "30 21 * * *" # 3 AM IST (9:30 PM UTC)
   workflow_dispatch: # Allow manual triggering
-  push:
-    paths:
-      - "**/*.md"
-      - "**/*.markdown"
 
 jobs:
   format-markdown:

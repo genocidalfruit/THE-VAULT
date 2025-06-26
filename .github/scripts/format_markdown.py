@@ -75,7 +75,7 @@ def format_markdown_with_deepseek_r1(content, file_path):
 **Core Formatting Rules**:
 1. **Heading Hierarchy**: Ensure proper progression (# → ## → ### → ####)
 2. **List Consistency**: Use `-` for unordered lists, numbers only when sequence matters
-3. **Code Blocks**: Add appropriate language identifiers (``````bash, etc.)
+3. **Code Blocks**: Add appropriate language identifiers (``````python, etc.)
 4. **Spacing**: Maintain consistent spacing between sections
 5. **Links**: Preserve all URLs and link text exactly as provided
 6. **Content Preservation**: Never alter the actual information, only improve presentation
@@ -134,9 +134,9 @@ If this is a TAGS folder file, add a concise 1-2 sentence description at the beg
         formatted_content = result["choices"][0]["message"]["content"]
         
         # Clean up any potential code block wrapping
-        if formatted_content.startswith('```
+        if formatted_content.startswith('```'):
             formatted_content = formatted_content[12:]  # Remove ```markdown\n
-        if formatted_content.endswith('\n```
+        if formatted_content.endswith('\n```'):
             formatted_content = formatted_content[:-4]  # Remove \n```
         
         return formatted_content
