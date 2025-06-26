@@ -1,8 +1,8 @@
 {
   "Gym/PPL SPLIT 1.md": {
-    "hash": "88464d5a5981fbccd69db25cac868290",
-    "last_formatted": 1750917558.109951,
-    "original_hash": "dc07ca6e23de36cc803362849e1b638a",
+    "hash": "7f0c59acde72c1bc626c9fb5132f4073",
+    "last_formatted": 1750918450.0382717,
+    "original_hash": "7f0c59acde72c1bc626c9fb5132f4073",
     "model_used": "deepseek-r1-0528-qwen3-8b"
   },
   "TAGS/Tech.md": {
@@ -12,15 +12,15 @@
     "model_used": "deepseek-r1-0528-qwen3-8b"
   },
   "Gym/FOREARM WORKOUTS 1.md": {
-    "hash": "4f47f271d6ce970aad1dbb25a9892693",
-    "last_formatted": 1750917582.626736,
-    "original_hash": "bef69a1e74f807afee6619f18cbacb96",
+    "hash": "051a0effef50a0d4c267427716cc9ab7",
+    "last_formatted": 1750918464.0040965,
+    "original_hash": "051a0effef50a0d4c267427716cc9ab7",
     "model_used": "deepseek-r1-0528-qwen3-8b"
   },
   "Automation/GIT REPO LLM FORMATTING 1.md": {
-    "hash": "d0e4496e458664c8a5648c53415be0b8",
-    "last_formatted": 1750917622.5993032,
-    "original_hash": "0a888cd6387fe2c4b801227e87dbc7df",
+    "hash": "2f66168906da802f09e760fc1c15ec70",
+    "last_formatted": 1750918384.6765482,
+    "original_hash": "2f66168906da802f09e760fc1c15ec70",
     "model_used": "deepseek-r1-0528-qwen3-8b"
   },
   "Tags/Gym.md": {
@@ -30,9 +30,15 @@
     "model_used": "deepseek-r1-0528-qwen3-8b"
   },
   "LLM/RAG 1.md": {
-    "hash": "0fe51e8f5b3108fe9dbcc9fa6efaf3b6",
-    "last_formatted": 1750917664.5703964,
-    "original_hash": "51e686e0cebcb6b25714e5938c733da9",
+    "hash": "407e85a2317207cacf2f46d9958596ae",
+    "last_formatted": 1750918424.8211644,
+    "original_hash": "407e85a2317207cacf2f46d9958596ae",
+    "model_used": "deepseek-r1-0528-qwen3-8b"
+  },
+  "Rough Notes/SAMPLE.md": {
+    "hash": "3352c44ce89dd10ecdca2a7fb1b65621",
+    "last_formatted": 1750918478.2017531,
+    "original_hash": "3352c44ce89dd10ecdca2a7fb1b65621",
     "model_used": "deepseek-r1-0528-qwen3-8b"
   }
 }
