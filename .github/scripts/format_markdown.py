@@ -176,6 +176,10 @@ def should_skip_file(file_path):
     if filename in ['readme.md', 'readme.markdown']:
         return True
     
+    # Skip canvas files
+    if filename.endswith('.canvas'):
+        return True
+    
     return False
 
 def process_markdown_files():
