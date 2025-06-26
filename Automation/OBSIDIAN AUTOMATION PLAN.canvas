@@ -1,0 +1,16 @@
+{
+	"nodes":[
+		{"id":"3467ec06ed82811d","type":"text","text":"Obsidian Vault (PC)","x":-109,"y":-36,"width":250,"height":60},
+		{"id":"1939c0479ab96a14","type":"text","text":"THE-VAULT (Github Repo)","x":-109,"y":140,"width":250,"height":60},
+		{"id":"7f0482d3ca879697","type":"text","text":"LLM workflow formatting","x":-109,"y":320,"width":250,"height":60},
+		{"id":"063ef3d89d3acffa","x":220,"y":-36,"width":250,"height":60,"type":"text","text":"Obsidian Vault (Mobile)"}
+	],
+	"edges":[
+		{"id":"5a62584a421f52f5","fromNode":"3467ec06ed82811d","fromSide":"bottom","toNode":"1939c0479ab96a14","toSide":"top"},
+		{"id":"1841ad4be73e7250","fromNode":"1939c0479ab96a14","fromSide":"bottom","toNode":"7f0482d3ca879697","toSide":"top"},
+		{"id":"a5235151022ec048","fromNode":"7f0482d3ca879697","fromSide":"top","toNode":"1939c0479ab96a14","toSide":"bottom"},
+		{"id":"b807b68ebf888c07","fromNode":"063ef3d89d3acffa","fromSide":"bottom","toNode":"1939c0479ab96a14","toSide":"top"},
+		{"id":"1ad7a87b04ccdd10","fromNode":"1939c0479ab96a14","fromSide":"left","toNode":"3467ec06ed82811d","toSide":"left"},
+		{"id":"200371342c0ff7bb","fromNode":"1939c0479ab96a14","fromSide":"right","toNode":"063ef3d89d3acffa","toSide":"left"}
+	]
+}

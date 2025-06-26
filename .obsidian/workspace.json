@@ -4,24 +4,42 @@
     "type": "split",
     "children": [
       {
-        "id": "1df5879ff0626d38",
+        "id": "5491ac3db3f33f5c",
         "type": "tabs",
         "children": [
           {
-            "id": "800e04713dff384c",
+            "id": "18b88801726f559c",
+            "type": "leaf",
+            "state": {
+              "type": "canvas",
+              "state": {
+                "file": "Automation/OBSIDIAN AUTOMATION PLAN.canvas",
+                "viewState": {
+                  "x": 145.18861734936766,
+                  "y": 178.07934453085878,
+                  "zoom": -0.6085805966240299
+                }
+              },
+              "icon": "lucide-layout-dashboard",
+              "title": "OBSIDIAN AUTOMATION PLAN"
+            }
+          },
+          {
+            "id": "773e3c3e61d882ee",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Automation/GIT REPO LLM FORMATTING 1.md",
+                "file": "Automation/OBSIDIAN AUTOMATION TODO.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "GIT REPO LLM FORMATTING 1"
+              "title": "OBSIDIAN AUTOMATION TODO"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -165,24 +183,25 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "800e04713dff384c",
+  "active": "773e3c3e61d882ee",
   "lastOpenFiles": [
+    "Automation/OBSIDIAN AUTOMATION PLAN.canvas",
+    "Automation/OBSIDIAN AUTOMATION TODO.md",
+    "Finance/BUDGETING 1.md",
+    "Automation/GIT REPO LLM FORMATTING 1.md",
+    "LLM/RAG 1.md",
     "Gym/FOREARM WORKOUTS 1.md",
     "Gym/PPL SPLIT 1.md",
-    "LLM/RAG 1.md",
-    "ROUGH NOTES/SAMPLE.md",
+    "README.md",
     "TAGS/Tech.md",
     "TAGS/Gym.md",
-    "Automation/GIT REPO LLM FORMATTING 1.md",
+    "ROUGH NOTES/SAMPLE.md",
     "RESOURCES/Pasted image 20250625165433.png",
     "RESOURCES/Pasted image 20250625164623.png",
     "RESOURCES",
     "LLM",
-    "README.md",
-    "Finance/BUDGETING 1.md",
     "Automation",
     "ROUGH NOTES",
-    "Untitled.canvas",
     "Finance"
   ]
 }

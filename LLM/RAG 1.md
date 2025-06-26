@@ -4,7 +4,7 @@ Tags: [[Tech]]
 
 Retrieval Augmented Generation (RAG) is a technique that enhances large language models by integrating external knowledge sources, improving accuracy, reliability, and reducing hallucinations. It allows models to cite sources and clarify ambiguous queries, making it faster and less expensive than retraining models.
 
-Technique to enhance the accuracy and reliability of genAI models. It can be used by nearly any LLM to connect with practically any external resource.
+It is a technique to enhance the accuracy and reliability of genAI models. It can be used by nearly any LLM to connect with practically any external resource.
 
 Retrieval-augmented generation gives models sources they can cite, like footnotes in a research paper, so users can check any claims. That builds trust.
 
