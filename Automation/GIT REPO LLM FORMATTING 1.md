@@ -1,4 +1,4 @@
-# Tags: [[Tech]]
+Tags: [[Tech]]
 
 ## 🚀 1. Set Up GitHub Actions Workflow
 

@@ -1,4 +1,4 @@
-# 🌟 Awesome Resources
+# Awesome Resources
 
 - [https://github.com/Shubhamsaboo/awesome-llm-apps](https://github.com/Shubhamsaboo/awesome-llm-apps)
 

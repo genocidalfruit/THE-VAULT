@@ -1,10 +1,4 @@
-# Gym/PPL Split 1 🏋️‍♂️
-
 Tags: [[Gym]]
-
----
-
-This section outlines the Push A workout, focusing on strength development for the chest, shoulders, and triceps through compound lifts and targeted exercises to build muscle and power.
 
 ### 🗓️ Monday: Push A (Strength – Chest, Shoulders, Triceps) 💪  
 *Focus on building strength for chest, shoulders, and triceps with compound lifts and targeted exercises.*

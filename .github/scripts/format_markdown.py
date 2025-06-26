@@ -72,10 +72,19 @@ def format_markdown_with_deepseek_r1(content, file_path):
 **File Path**: {file_path}
 **Special Context**: {'This is a knowledge base tag file' if is_tags_file else 'This is a general markdown document'}
 
+**CRITICAL REQUIREMENT - Tags Section**:
+ALWAYS ensure there is a "Tags" section at the very top of every document (after the title if present). The Tags section should be formatted exactly as:
+
+Tags: 
+
+(with no additional formatting, emojis, or styling - just plain text)
+
+If the document already has a Tags section, keep it at the top. If it doesn't have one, add it at the top.
+
 **Core Formatting Rules**:
 1. **Heading Hierarchy**: Ensure proper progression (# → ## → ### → ####)
 2. **List Consistency**: Use `-` for unordered lists, numbers only when sequence matters
-3. **Code Blocks**: Add appropriate language identifiers (``````python, etc.)
+3. **Code Blocks**: Add appropriate language identifiers (```
 4. **Spacing**: Maintain consistent spacing between sections
 5. **Links**: Preserve all URLs and link text exactly as provided
 6. **Content Preservation**: Never alter the actual information, only improve presentation
@@ -85,6 +94,7 @@ def format_markdown_with_deepseek_r1(content, file_path):
 - Keep emojis professional and contextually appropriate
 - Avoid emojis in code blocks, inline code, or technical sections
 - For TAGS files: Add brief descriptions at the start of each section
+- DO NOT add emojis or formatting to the "Tags" section itself
 
 **Special Instructions for TAGS Files**:
 If this is a TAGS folder file, add a concise 1-2 sentence description at the beginning of each major section explaining what that tag category covers in the knowledge base.
@@ -94,6 +104,7 @@ If this is a TAGS folder file, add a concise 1-2 sentence description at the beg
 - Do not wrap output in code blocks or add commentary
 - If the file is empty, return empty content
 - Maintain all original links, references, and technical details
+- ALWAYS include the Tags section at the top (plain text format: "Tags: ")
 
 **Content to Format**:
 {content}"""
@@ -108,15 +119,15 @@ If this is a TAGS folder file, add a concise 1-2 sentence description at the beg
         "messages": [
             {
                 "role": "system", 
-                "content": "You are a professional markdown formatter focused on improving document readability while preserving all original content and meaning. Apply consistent formatting standards and enhance visual appeal through strategic use of emojis and spacing."
+                "content": "You are a professional markdown formatter focused on improving document readability while preserving all original content and meaning. Apply consistent formatting standards and enhance visual appeal through strategic use of emojis and spacing. ALWAYS ensure every document has a 'Tags: ' section at the top in plain text format."
             },
             {
                 "role": "user", 
                 "content": prompt
             }
         ],
-        "temperature": 0.2,  # Lower temperature for more consistent formatting
-        "max_tokens": 8000,  # Increased for longer documents
+        "temperature": 0.2,
+        "max_tokens": 8000,
         "top_p": 0.9
     }
     
@@ -125,42 +136,47 @@ If this is a TAGS folder file, add a concise 1-2 sentence description at the beg
             "https://openrouter.ai/api/v1/chat/completions",
             headers=headers,
             json=data,
-            timeout=180  # Increased timeout for R1 model processing
+            timeout=180
         )
         response.raise_for_status()
         result = response.json()
         
         # Extract the formatted content
-        formatted_content = result["choices"][0]["message"]["content"]
+        formatted_content = result["choices"]["message"]["content"]
         
         # Clean up any potential code block wrapping
-        if formatted_content.startswith('```'):
-            formatted_content = formatted_content[12:]  # Remove ```markdown\n
+        if formatted_content.startswith('```markdown'):
+            formatted_content = formatted_content[12:]
         if formatted_content.endswith('\n```'):
-            formatted_content = formatted_content[:-4]  # Remove \n```
+            formatted_content = formatted_content[:-4]
         
         return formatted_content
         
     except Exception as e:
         print(f"Error formatting with DeepSeek R1: {str(e)}")
-        return content  # Return original content if formatting fails
+        return content
 
-def filter_markdown_files(files):
-    """Filter markdown files to exclude README files and files in dot folders"""
-    filtered_files = []
+def should_skip_file(file_path):
+    """Determine if a file should be skipped based on path patterns"""
+    # Skip files in excluded directories
+    excluded_patterns = [
+        'ROUGH NOTES/', 'RESOURCES/'  # Specified folders
+    ]
     
-    for file_path in files:
-        # Skip files in dot folders (any directory component starting with .)
-        if any(part.startswith('.') for part in file_path.split(os.sep)):
-            continue
-            
-        # Skip README files (case insensitive)
-        if os.path.basename(file_path).lower() == 'readme.md':
-            continue
-            
-        filtered_files.append(file_path)
+    if any(pattern in file_path for pattern in excluded_patterns):
+        return True
     
-    return filtered_files
+    # Skip any file or folder that starts with a dot
+    path_parts = file_path.split(os.sep)
+    if any(part.startswith('.') for part in path_parts):
+        return True
+    
+    # Skip README files (case insensitive)
+    filename = os.path.basename(file_path).lower()
+    if filename in ['readme.md', 'readme.markdown']:
+        return True
+    
+    return False
 
 def process_markdown_files():
     """Process markdown files with intelligent tracking"""
@@ -173,17 +189,8 @@ def process_markdown_files():
     for pattern in ['**/*.md', '**/*.markdown']:
         markdown_files.extend(glob.glob(pattern, recursive=True))
     
-    # Remove duplicates
-    markdown_files = list(set(markdown_files))
-    
-    # Apply comprehensive filtering
-    # First exclude system/build directories and "Rough Notes" folder
-    markdown_files = [f for f in markdown_files if not any(skip in f for skip in [
-        '.git/', '.github/', '.obsidian/', '.trash/', 'ROUGH NOTES/', 'RESOURCES/'
-    ])]
-    
-    # Then apply custom filtering for README and dot folders
-    markdown_files = filter_markdown_files(markdown_files)
+    # Remove duplicates and filter files
+    markdown_files = [f for f in set(markdown_files) if not should_skip_file(f)]
     
     print(f"🔍 Found {len(markdown_files)} markdown files to process")
     

@@ -1,6 +1,7 @@
+Tags: [[Gym]]
+
 # 💪 Forearm Exercises
 
-Tags: [[Gym]]
 
 🔗 Link: https://youtube.com/shorts/OG131ahIxEs?si=eiR3hhaRlGidA30W
 
