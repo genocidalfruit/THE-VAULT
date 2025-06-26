@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "TAGS/Tech.md",
+                "file": "Automation/GIT REPO LLM FORMATTING 1.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Tech"
+              "title": "GIT REPO LLM FORMATTING 1"
             }
           }
         ]
@@ -167,13 +167,13 @@
   },
   "active": "800e04713dff384c",
   "lastOpenFiles": [
-    "TAGS/Gym.md",
-    "ROUGH NOTES/SAMPLE.md",
-    "LLM/RAG 1.md",
-    "Gym/PPL SPLIT 1.md",
     "Gym/FOREARM WORKOUTS 1.md",
-    "Automation/GIT REPO LLM FORMATTING 1.md",
+    "Gym/PPL SPLIT 1.md",
+    "LLM/RAG 1.md",
+    "ROUGH NOTES/SAMPLE.md",
+    "TAGS/Gym.md",
     "TAGS/Tech.md",
+    "Automation/GIT REPO LLM FORMATTING 1.md",
     "RESOURCES/Pasted image 20250625165433.png",
     "RESOURCES/Pasted image 20250625164623.png",
     "RESOURCES",

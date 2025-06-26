@@ -61,38 +61,42 @@ def should_format_file(file_path, tracking_data):
     
     return False, current_hash
 
-def format_markdown_with_deepseek(content, file_path):
-    """Format markdown content using DeepSeek via OpenRouter API"""
-    prompt = f"""
-    Please format and improve the following markdown content while preserving its structure and meaning.
+def format_markdown_with_deepseek_r1(content, file_path):
+    """Format markdown content using DeepSeek R1 0528 Qwen3 8B via OpenRouter API"""
     
-    File: {file_path}
+    # Determine if this is a TAGS folder file for special handling
+    is_tags_file = 'TAGS' in file_path.upper()
     
-    Formatting requirements:
-    1. Fix any formatting inconsistencies
-    2. Ensure proper heading hierarchy (# ## ### ####)
-    3. Standardize list formatting (use - for bullets, numbers only when order matters)
-    4. Improve readability while maintaining the original content
-    5. Ensure code blocks have proper language specification
-    6. Maintain consistent spacing between sections
-    7. Return only the formatted markdown without any additional commentary.
-    8. Add a little flair in the formatting to make it visually appealing (Relevant emojis for headings, spacing, etc.)
-    9. In case the file is empty, do not return any content.
-    10. Do not replace links with any sort of text, keep them as they are.
-    
-    Do not change the original content, only the formatting. The goal is to enhance readability and consistency.
-    
-    Do not go overboard with the emojis, keep it professional and relevant to the content. Make sure not use them for non-heading bullet points or lists.
-    Do not use emojis in code blocks or inline code. Do not use emojis for the 'Tags' section in the files not in the 'TAGS' folder.
+    prompt = f"""You are an expert markdown formatter. Your task is to improve the formatting and readability of markdown content while preserving all original meaning and information.
 
-    For each section in EVERY file in the 'TAGS' folder, have a brief description of the section in the beginning of the section. Use emojis for the section headings, and then format the content accordingly.
-    Remember that this is a knowledge base. Write the descriptions for each tag accordingly, so that it is easy to understand what the tag is about.
+**File Path**: {file_path}
+**Special Context**: {'This is a knowledge base tag file' if is_tags_file else 'This is a general markdown document'}
 
-    CRITICAL: Do not wrap the returned content in "markdown ``````" or any other code block.
+**Core Formatting Rules**:
+1. **Heading Hierarchy**: Ensure proper progression (# → ## → ### → ####)
+2. **List Consistency**: Use `-` for unordered lists, numbers only when sequence matters
+3. **Code Blocks**: Add appropriate language identifiers (``````bash, etc.)
+4. **Spacing**: Maintain consistent spacing between sections
+5. **Links**: Preserve all URLs and link text exactly as provided
+6. **Content Preservation**: Never alter the actual information, only improve presentation
 
-    Content to format:
-    {content}
-    """
+**Visual Enhancement Guidelines**:
+- Add relevant emojis to main headings only (not subheadings or lists)
+- Keep emojis professional and contextually appropriate
+- Avoid emojis in code blocks, inline code, or technical sections
+- For TAGS files: Add brief descriptions at the start of each section
+
+**Special Instructions for TAGS Files**:
+If this is a TAGS folder file, add a concise 1-2 sentence description at the beginning of each major section explaining what that tag category covers in the knowledge base.
+
+**Output Requirements**:
+- Return ONLY the formatted markdown content
+- Do not wrap output in code blocks or add commentary
+- If the file is empty, return empty content
+- Maintain all original links, references, and technical details
+
+**Content to Format**:
+{content}"""
     
     headers = {
         "Authorization": f"Bearer {OPENROUTER_API_KEY}",
@@ -100,12 +104,20 @@ def format_markdown_with_deepseek(content, file_path):
     }
     
     data = {
-        "model": "deepseek/deepseek-chat-v3-0324:free",
+        "model": "deepseek/deepseek-r1-0528-qwen3-8b:free",
         "messages": [
-            {"role": "user", "content": prompt}
+            {
+                "role": "system", 
+                "content": "You are a professional markdown formatter focused on improving document readability while preserving all original content and meaning. Apply consistent formatting standards and enhance visual appeal through strategic use of emojis and spacing."
+            },
+            {
+                "role": "user", 
+                "content": prompt
+            }
         ],
-        "temperature": 0.3,
-        "max_tokens": 4000
+        "temperature": 0.2,  # Lower temperature for more consistent formatting
+        "max_tokens": 8000,  # Increased for longer documents
+        "top_p": 0.9
     }
     
     try:
@@ -113,13 +125,24 @@ def format_markdown_with_deepseek(content, file_path):
             "https://openrouter.ai/api/v1/chat/completions",
             headers=headers,
             json=data,
-            timeout=120
+            timeout=180  # Increased timeout for R1 model processing
         )
         response.raise_for_status()
         result = response.json()
-        return result["choices"][0]["message"]["content"]
+        
+        # Extract the formatted content
+        formatted_content = result["choices"][0]["message"]["content"]
+        
+        # Clean up any potential code block wrapping
+        if formatted_content.startswith('```
+            formatted_content = formatted_content[12:]  # Remove ```markdown\n
+        if formatted_content.endswith('\n```
+            formatted_content = formatted_content[:-4]  # Remove \n```
+        
+        return formatted_content
+        
     except Exception as e:
-        print(f"Error formatting with DeepSeek: {str(e)}")
+        print(f"Error formatting with DeepSeek R1: {str(e)}")
         return content  # Return original content if formatting fails
 
 def filter_markdown_files(files):
@@ -162,17 +185,17 @@ def process_markdown_files():
     # Then apply custom filtering for README and dot folders
     markdown_files = filter_markdown_files(markdown_files)
     
-    print(f"Found {len(markdown_files)} markdown files to process")
+    print(f"🔍 Found {len(markdown_files)} markdown files to process")
     
     for file_path in markdown_files:
         should_format, current_hash = should_format_file(file_path, tracking_data)
         
         if not should_format:
             skipped_files.append(file_path)
-            print(f"Skipping (already formatted): {file_path}")
+            print(f"⏭️ Skipping (already formatted): {file_path}")
             continue
         
-        print(f"Processing: {file_path}")
+        print(f"🔄 Processing: {file_path}")
         
         try:
             with open(file_path, 'r', encoding='utf-8') as file:
@@ -180,14 +203,14 @@ def process_markdown_files():
             
             # Skip empty files
             if not original_content.strip():
-                print(f"Skipping empty file: {file_path}")
+                print(f"📄 Skipping empty file: {file_path}")
                 continue
             
-            # Format with DeepSeek
-            formatted_content = format_markdown_with_deepseek(original_content, file_path)
+            # Format with DeepSeek R1
+            formatted_content = format_markdown_with_deepseek_r1(original_content, file_path)
             
             # Only write if content actually changed
-            if formatted_content != original_content:
+            if formatted_content.strip() != original_content.strip():
                 with open(file_path, 'w', encoding='utf-8') as file:
                     file.write(formatted_content)
                 
@@ -195,7 +218,8 @@ def process_markdown_files():
                 tracking_data[file_path] = {
                     'hash': hashlib.md5(formatted_content.encode()).hexdigest(),
                     'last_formatted': time.time(),
-                    'original_hash': current_hash
+                    'original_hash': current_hash,
+                    'model_used': 'deepseek-r1-0528-qwen3-8b'
                 }
                 
                 updated_files.append(file_path)
@@ -205,7 +229,8 @@ def process_markdown_files():
                 tracking_data[file_path] = {
                     'hash': current_hash,
                     'last_formatted': time.time(),
-                    'original_hash': current_hash
+                    'original_hash': current_hash,
+                    'model_used': 'deepseek-r1-0528-qwen3-8b'
                 }
                 print(f"📝 No changes needed: {file_path}")
                 
@@ -221,9 +246,9 @@ def process_markdown_files():
     
     # Print summary
     print(f"\n📊 Processing Summary:")
-    print(f"   Updated files: {len(updated_files)}")
-    print(f"   Skipped files: {len(skipped_files)}")
-    print(f"   Total files: {len(markdown_files)}")
+    print(f"   ✨ Updated files: {len(updated_files)}")
+    print(f"   ⏭️ Skipped files: {len(skipped_files)}")
+    print(f"   📁 Total files: {len(markdown_files)}")
     
     if updated_files:
         print(f"\n📝 Updated files:")
