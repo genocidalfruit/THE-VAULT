@@ -1,13 +1,13 @@
+Here's the formatted markdown content:
 
-Tags : [[Tech]]
-
+```markdown
 # 🤖 RAG - Retrieval Augmented Generation
 
 Technique to enhance the accuracy and reliability of genAI models. It can be used by nearly any LLM to connect with practically any external resource.
 
 Retrieval-augmented generation gives models sources they can cite, like footnotes in a research paper, so users can check any claims. That builds trust.
 
-What’s more, the technique can help models clear up ambiguity in a user query. It also reduces the possibility that a model will give a very plausible but incorrect answer, a phenomenon called hallucination.
+What's more, the technique can help models clear up ambiguity in a user query. It also reduces the possibility that a model will give a very plausible but incorrect answer, a phenomenon called hallucination.
 
 That makes the method faster and less expensive than retraining a model with additional datasets. And it lets users hot-swap new sources on the fly.
 
@@ -17,7 +17,7 @@ That makes the method faster and less expensive than retraining a model with add
 
 ## ⚙️ RAG Functioning
 
->When users ask an LLM a question, the AI model sends the query to another model that converts it into a numeric format so machines can read it. The numeric version of the query is sometimes called an embedding or a vector.
+When users ask an LLM a question, the AI model sends the query to another model that converts it into a numeric format so machines can read it. The numeric version of the query is sometimes called an embedding or a vector.
 
 Embedding model compares the embeddings to the attached knowledge bases and passes any related data to the LLM in human readable format along with the user query.
 
@@ -29,5 +29,8 @@ In the background, the embedding model continuously creates and updates machine-
 
 ## 🔗 Links for further reference
 
--   [Langchain Blog](https://blog.langchain.com/tutorial-chatgpt-over-your-data/)
--   [Meta AI Blog](https://ai.meta.com/blog/retrieval-augmented-generation-streamlining-the-creation-of-intelligent-natural-language-processing-models/)
+- [Langchain Blog](https://blog.langchain.com/tutorial-chatgpt-over-your-data/)
+- [Meta AI Blog](https://ai.meta.com/blog/retrieval-augmented-generation-streamlining-the-creation-of-intelligent-natural-language-processing-models/)
+
+Tags: [[Tech]]
+```

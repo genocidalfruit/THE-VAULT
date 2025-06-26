@@ -1,23 +1,33 @@
+Here's the formatted version of your markdown content:
 
-Tags: [[Tech]]
+```markdown
+# Tags: [[Tech]]
 
 ## 🚀 1. Set Up GitHub Actions Workflow
 
-Scheduling using `cron`:
+Automating daily tasks with GitHub Actions using cron scheduling.
 
 ```yaml
 cron: "0 9 * * *" # Run daily at 9 AM UTC
 ```
 
-- Setup Python
-- Install dependencies
-- Check if a daily run is needed
-- Run script
+Workflow steps:
+- Setup Python environment
+- Install required dependencies
+- Check if daily run is needed
+- Execute main script
 - Update last run timestamp
-- Commit changes
+- Commit any changes
 
 <br>
 
 ## 🐍 2. Python Script
 
-Utilizes the Gemini API to analyze files. Based on a provided prompt, it applies formatting and styling enhancements. Certain directories are ignored. File changes are checked using hashes, and only the changed files are made available for formatting.
+A script that leverages the Gemini API to analyze and enhance files with consistent formatting based on provided prompts.
+
+Key features:
+- Applies formatting and styling improvements
+- Excludes specified directories from processing
+- Uses file hashes to detect changes
+- Only processes modified files for efficiency
+```
