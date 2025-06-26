@@ -76,17 +76,20 @@ def format_markdown_with_gemini(content, file_path):
     4. Improve readability while maintaining the original content
     5. Ensure code blocks have proper language specification
     6. Maintain consistent spacing between sections
-    7. Return only the formatted markdown without any additional commentary. Do not wrap it in "markdown ``````" or any other code block.
+    7. Return only the formatted markdown without any additional commentary.
     8. Add a little flair in the formatting to make it visually appealing (Relevant emojis for headings, spacing, etc.)
     9. In case the file is empty, do not return any content.
     10. Do not replace links with any sort of text, keep them as they are.
     
-    IMPORTANT: Do not change the original content, only the formatting. The goal is to enhance readability and consistency.
+    Do not change the original content, only the formatting. The goal is to enhance readability and consistency.
     
     Do not go overboard with the emojis, keep it professional and relevant to the content. Make sure not use them for non-heading bullet points or lists.
     Do not use emojis in code blocks or inline code. Do not use emojis for the 'Tags' section in the files not in the 'TAGS' folder.
 
-    For each section in the files in the 'TAGS' folder, have a brief description of the section in the beginning of the section (for example: "Learning resources for Python programming"). Use emojis for the section headings, and then format the content accordingly.
+    For each section in EVERY file in the 'TAGS' folder, have a brief description of the section in the beginning of the section. Use emojis for the section headings, and then format the content accordingly.
+    Remember that this is a knowledge base. Write the descriptions for each tag accordingly, so that it is easy to understand what the tag is about.
+
+    CRITICAL: Do not wrap the returned content in "markdown ``````" or any other code block.
 
     Content to format:
     {content}
