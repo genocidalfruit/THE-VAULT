@@ -4,6 +4,8 @@ Tags: [[Gym]]
 
 ---
 
+This section outlines the Push A workout, focusing on strength development for the chest, shoulders, and triceps through compound lifts and targeted exercises to build muscle and power.
+
 ### 🗓️ Monday: Push A (Strength – Chest, Shoulders, Triceps) 💪  
 *Focus on building strength for chest, shoulders, and triceps with compound lifts and targeted exercises.*
 
@@ -16,6 +18,8 @@ Tags: [[Gym]]
 - **Core**: Cable Crunch  
 
 ---
+
+This section describes the Pull A workout, emphasizing strength training for the back, biceps, and rear deltoids using pulling movements and isolation work to promote muscle growth and strength.
 
 ### 🗓️ Tuesday: Pull A (Strength – Back, Biceps, Rear Delts) 💪  
 *Strengthen your back, biceps, and rear delts with pulling movements and isolation work.*
@@ -30,6 +34,8 @@ Tags: [[Gym]]
 
 ---
 
+This section details the Legs A workout, centered on strength training for the quads, glutes, hamstrings, and calves with compound lifts and accessory movements to ensure balanced lower body development.
+
 ### 🗓️ Wednesday: Legs A (Strength – Quads, Glutes, Hamstrings, Calves) 💪  
 *Build lower body strength with compound lifts and accessory movements for balanced development.*
 
@@ -41,6 +47,8 @@ Tags: [[Gym]]
 - **Core**: Pallof Press  
 
 ---
+
+This section covers the Push B workout, focusing on hypertrophy for the chest, shoulders, and triceps through volume-focused exercises to increase muscle size and definition.
 
 ### 🗓️ Thursday: Push B (Hypertrophy – Chest, Shoulders, Triceps) 💪  
 *Focus on muscle growth for chest, shoulders, and triceps with volume-focused exercises.*
@@ -55,6 +63,8 @@ Tags: [[Gym]]
 
 ---
 
+This section explains the Pull B workout, promoting hypertrophy for the back, biceps, and rear delts with controlled, high-rep movements to enhance muscle growth and endurance.
+
 ### 🗓️ Friday: Pull B (Hypertrophy – Back, Biceps, Rear Delts) 💪  
 *Promote muscle growth in the back, biceps, and rear delts with controlled, high-rep movements.*
 
@@ -68,6 +78,8 @@ Tags: [[Gym]]
 - **Core**: Weighted Decline Sit-Up  
 
 ---
+
+This section describes the Legs B workout, targeting hypertrophy for the quads, glutes, hamstrings, and calves with isolation exercises and high-volume work to maximize muscle size.
 
 ### 🗓️ Saturday: Legs B (Hypertrophy – Quads, Glutes, Hamstrings, Calves) 💪  
 *Target hypertrophy for the lower body with isolation exercises and high-volume work.*

@@ -1,7 +1,6 @@
-Here's the formatted markdown content:
+# 🤖 Retrieval Augmented Generation (RAG)
 
-```markdown
-# 🤖 RAG - Retrieval Augmented Generation
+Retrieval Augmented Generation (RAG) is a technique that enhances large language models by integrating external knowledge sources, improving accuracy, reliability, and reducing hallucinations. It allows models to cite sources and clarify ambiguous queries, making it faster and less expensive than retraining models.
 
 Technique to enhance the accuracy and reliability of genAI models. It can be used by nearly any LLM to connect with practically any external resource.
 
@@ -17,6 +16,8 @@ That makes the method faster and less expensive than retraining a model with add
 
 ## ⚙️ RAG Functioning
 
+This section explains how RAG works, including the use of embeddings and vector databases to match queries with relevant knowledge.
+
 When users ask an LLM a question, the AI model sends the query to another model that converts it into a numeric format so machines can read it. The numeric version of the query is sometimes called an embedding or a vector.
 
 Embedding model compares the embeddings to the attached knowledge bases and passes any related data to the LLM in human readable format along with the user query.
@@ -29,8 +30,9 @@ In the background, the embedding model continuously creates and updates machine-
 
 ## 🔗 Links for further reference
 
+This section provides external links for deeper understanding of RAG.
+
 - [Langchain Blog](https://blog.langchain.com/tutorial-chatgpt-over-your-data/)
 - [Meta AI Blog](https://ai.meta.com/blog/retrieval-augmented-generation-streamlining-the-creation-of-intelligent-natural-language-processing-models/)
 
 Tags: [[Tech]]
-```

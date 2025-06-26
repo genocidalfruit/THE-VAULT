@@ -1,13 +1,11 @@
-# 🤖 LLMs
+# 🤖 LLMs  
+Large Language Models (LLMs) represent cutting-edge advancements in artificial intelligence, enabling natural language understanding and generation. These models power applications like chatbots, content creation, and data analysis.  
 
-Brief overview of Large Language Models.
+[[RAG 1]]  
 
-[[RAG 1]]
+<br>  
 
-<br>
-
-# ⚙️ Obsidian Automation
-
-Resources and techniques for automating tasks within Obsidian.
+# ⚙️ Obsidian Automation  
+Obsidian Automation refers to techniques and workflows for streamlining task management and productivity enhancement within Obsidian. This includes plugins, scripts, and integration strategies.  
 
 [[GIT REPO LLM FORMATTING 1]]
