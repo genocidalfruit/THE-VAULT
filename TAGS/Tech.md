@@ -1,4 +1,5 @@
 # 🤖 LLMs
-An overview of Large Language Models.
-
 [[RAG 1]]
+
+# Obsidian Automation
+[[GIT REPO LLM FORMATTING 1]]

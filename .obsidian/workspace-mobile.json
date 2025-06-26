@@ -4,35 +4,27 @@
     "type": "split",
     "children": [
       {
-        "id": "676f340d3ed4806b",
+        "id": "13ae5d1a96a9baa8",
         "type": "tabs",
         "children": [
           {
-            "id": "9e6bf1b42da0cb57",
+            "id": "147a445b43588cfd",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Gym/FOREARM WORKOUTS 1.md",
-                "mode": "preview",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "FOREARM WORKOUTS 1"
+              "title": "New tab"
             }
           },
           {
-            "id": "14275a38de3cb82e",
+            "id": "de16a279c18bfa2f",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Tags/Gym.md",
-                "mode": "preview",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "Gym"
+              "title": "New tab"
             }
           }
         ],
@@ -168,11 +160,16 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "14275a38de3cb82e",
+  "active": "de16a279c18bfa2f",
   "lastOpenFiles": [
     "Gym/FOREARM WORKOUTS 1.md",
-    "Gym/PPL SPLIT 1.md",
+    "Automation/GIT REPO LLM FORMATTING 1.md",
+    "Tags/Tech.md",
     "Tags/Gym.md",
+    "Rough Notes/SAMPLE.md",
+    "LLM/RAG 1.md",
+    "RESOURCES/Pasted image 20250625165433.png",
+    "Gym/PPL SPLIT 1.md",
     "JUNE 2025.md",
     "Daily Check",
     "Tags",
