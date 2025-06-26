@@ -1,47 +1,61 @@
-name: Daily Markdown Formatter with Gemini
+name: Daily Markdown Formatter with DeepSeek
 
 on:
   schedule:
-    - cron: "0 9 * * *" # Run daily at 9 AM UTC
+    - cron: "30 21 * * *" # 3 AM IST (9:30 PM UTC)
   workflow_dispatch: # Allow manual triggering
+  push:
+    paths:
+      - "**/*.md"
+      - "**/*.markdown"
 
 jobs:
   format-markdown:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Fetch full history for tracking
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.9"
+          python-version: "3.11"
 
       - name: Install dependencies
         run: |
-          pip install google-generativeai markdown2 python-dateutil
+          pip install --upgrade pip
+          pip install requests markdown2 python-dateutil
 
       - name: Check if daily run is needed
         id: check-daily
         run: |
-          # Check if .github/last-format-run exists and if it's been 24 hours
           if [ -f .github/last-format-run ]; then
             last_run=$(cat .github/last-format-run)
             current_time=$(date +%s)
             time_diff=$((current_time - last_run))
             hours_diff=$((time_diff / 3600))
             
-            if [ $hours_diff -lt 24 ] && [ "${{ github.event_name }}" != "workflow_dispatch" ]; then
+            echo "Last run: $(date -d @$last_run)"
+            echo "Current time: $(date)"
+            echo "Hours since last run: $hours_diff"
+            
+            if [ $hours_diff -lt 23 ] && [ "${{ github.event_name }}" != "workflow_dispatch" ]; then
               echo "skip=true" >> $GITHUB_OUTPUT
-              echo "Last run was $hours_diff hours ago, skipping..."
+              echo "⏭️ Skipping: Last run was $hours_diff hours ago"
             else
               echo "skip=false" >> $GITHUB_OUTPUT
+              echo "✅ Proceeding: Last run was $hours_diff hours ago or manual trigger"
             fi
           else
             echo "skip=false" >> $GITHUB_OUTPUT
+            echo "✅ Proceeding: No previous run detected"
           fi
 
       - name: Get changed markdown files
@@ -52,27 +66,97 @@ jobs:
           files: |
             **/*.md
             **/*.markdown
+          files_ignore: |
+            .github/**
+            .git/**
+            **/README.md
+            **/readme.md
           since_last_remote_commit: true
 
-      - name: Format changed files
-        if: steps.check-daily.outputs.skip != 'true' && (steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+      - name: Determine run mode
+        id: run-mode
+        if: steps.check-daily.outputs.skip != 'true'
+        run: |
+          if [ "${{ github.event_name }}" == "schedule" ] || [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "mode=full" >> $GITHUB_OUTPUT
+            echo "🔄 Running in FULL mode (all files)"
+          elif [ "${{ steps.changed-files.outputs.any_changed }}" == "true" ]; then
+            echo "mode=changed" >> $GITHUB_OUTPUT
+            echo "📝 Running in CHANGED mode (modified files only)"
+            echo "Changed files: ${{ steps.changed-files.outputs.all_changed_files }}"
+          else
+            echo "mode=skip" >> $GITHUB_OUTPUT
+            echo "⏭️ No markdown files changed, skipping formatting"
+          fi
+
+      - name: Format markdown files
+        if: steps.check-daily.outputs.skip != 'true' && steps.run-mode.outputs.mode != 'skip'
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
-          RUN_MODE: ${{ github.event_name == 'schedule' && 'full' || github.event_name == 'workflow_dispatch' && 'full' || 'changed' }}
-        run: python .github/scripts/format_markdown.py
+          RUN_MODE: ${{ steps.run-mode.outputs.mode }}
+          GITHUB_WORKSPACE: ${{ github.workspace }}
+        run: |
+          echo "🚀 Starting markdown formatting with DeepSeek..."
+          echo "Run mode: $RUN_MODE"
+          if [ "$RUN_MODE" == "changed" ]; then
+            echo "Processing changed files: $CHANGED_FILES"
+          fi
+
+          python .github/scripts/format_markdown.py
+
+          echo "✅ Markdown formatting completed"
+
+      - name: Check for changes
+        id: git-changes
+        if: steps.check-daily.outputs.skip != 'true' && steps.run-mode.outputs.mode != 'skip'
+        run: |
+          git add .
+          if git diff --staged --quiet; then
+            echo "changes=false" >> $GITHUB_OUTPUT
+            echo "📝 No formatting changes detected"
+          else
+            echo "changes=true" >> $GITHUB_OUTPUT
+            echo "✨ Formatting changes detected"
+            git diff --staged --name-only
+          fi
 
       - name: Update last run timestamp
-        if: steps.check-daily.outputs.skip != 'true' && (steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        if: steps.check-daily.outputs.skip != 'true' && steps.run-mode.outputs.mode != 'skip'
         run: |
           mkdir -p .github
           date +%s > .github/last-format-run
+          echo "📅 Updated last run timestamp: $(date)"
 
-      - name: Commit changes
-        if: steps.check-daily.outputs.skip != 'true' && (steps.changed-files.outputs.any_changed == 'true' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+      - name: Commit and push changes
+        if: steps.git-changes.outputs.changes == 'true'
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add .
-          git diff --staged --quiet || git commit -m "Auto-format markdown files with Gemini [$(date +'%Y-%m-%d %H:%M')]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          # Create detailed commit message
+          formatted_files=$(git diff --staged --name-only | wc -l)
+          commit_msg="🤖 Auto-format $formatted_files markdown file(s) with DeepSeek"
+          commit_msg="$commit_msg
+
+          Formatted on: $(date +'%Y-%m-%d at %H:%M UTC')
+          Trigger: ${{ github.event_name }}
+          Run mode: ${{ steps.run-mode.outputs.mode }}"
+
+          git commit -m "$commit_msg"
           git push
+
+          echo "✅ Changes committed and pushed successfully"
+
+      - name: Summary
+        if: always() && steps.check-daily.outputs.skip != 'true'
+        run: |
+          echo "## 📊 Workflow Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- **Trigger**: ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Run Mode**: ${{ steps.run-mode.outputs.mode }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Changes Made**: ${{ steps.git-changes.outputs.changes || 'N/A' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Timestamp**: $(date +'%Y-%m-%d %H:%M UTC')" >> $GITHUB_STEP_SUMMARY
+
+          if [ "${{ steps.changed-files.outputs.any_changed }}" == "true" ]; then
+            echo "- **Changed Files**: ${{ steps.changed-files.outputs.all_changed_files }}" >> $GITHUB_STEP_SUMMARY
+          fi

@@ -1,3 +1,4 @@
+
 Tags: [[Gym]]
 
 #### 🗓️ Monday: Push A (Strength – Chest, Shoulders, Triceps) 💪

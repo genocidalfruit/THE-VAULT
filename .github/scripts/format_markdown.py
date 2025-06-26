@@ -3,12 +3,13 @@ import glob
 import json
 import hashlib
 import time
+import requests
 from datetime import datetime, timedelta
-import google.generativeai as genai
 
-# Configure Gemini API
-GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
-genai.configure(api_key=GEMINI_API_KEY)
+# Configure OpenRouter API
+OPENROUTER_API_KEY = os.environ.get('OPENROUTER_API_KEY')
+if not OPENROUTER_API_KEY:
+    raise ValueError("OPENROUTER_API_KEY environment variable not set")
 
 TRACKING_FILE = '.github/formatted-files-tracking.json'
 CACHE_DURATION_DAYS = 7  # Re-format files after 7 days
@@ -60,10 +61,8 @@ def should_format_file(file_path, tracking_data):
     
     return False, current_hash
 
-def format_markdown_with_gemini(content, file_path):
-    """Format markdown content using Gemini API with file-specific context"""
-    model = genai.GenerativeModel('gemini-2.0-flash-exp')
-    
+def format_markdown_with_deepseek(content, file_path):
+    """Format markdown content using DeepSeek via OpenRouter API"""
     prompt = f"""
     Please format and improve the following markdown content while preserving its structure and meaning.
     
@@ -95,11 +94,32 @@ def format_markdown_with_gemini(content, file_path):
     {content}
     """
     
+    headers = {
+        "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+        "Content-Type": "application/json"
+    }
+    
+    data = {
+        "model": "deepseek/deepseek-chat-v3-0324:free",
+        "messages": [
+            {"role": "user", "content": prompt}
+        ],
+        "temperature": 0.3,
+        "max_tokens": 4000
+    }
+    
     try:
-        response = model.generate_content(prompt)
-        return response.text
+        response = requests.post(
+            "https://openrouter.ai/api/v1/chat/completions",
+            headers=headers,
+            json=data,
+            timeout=120
+        )
+        response.raise_for_status()
+        result = response.json()
+        return result["choices"][0]["message"]["content"]
     except Exception as e:
-        print(f"Error formatting with Gemini: {str(e)}")
+        print(f"Error formatting with DeepSeek: {str(e)}")
         return content  # Return original content if formatting fails
 
 def filter_markdown_files(files):
@@ -163,8 +183,8 @@ def process_markdown_files():
                 print(f"Skipping empty file: {file_path}")
                 continue
             
-            # Format with Gemini
-            formatted_content = format_markdown_with_gemini(original_content, file_path)
+            # Format with DeepSeek
+            formatted_content = format_markdown_with_deepseek(original_content, file_path)
             
             # Only write if content actually changed
             if formatted_content != original_content:

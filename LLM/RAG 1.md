@@ -1,6 +1,7 @@
-# 🤖 RAG - Retrieval Augmented Generation
 
 Tags : [[Tech]]
+
+# 🤖 RAG - Retrieval Augmented Generation
 
 Technique to enhance the accuracy and reliability of genAI models. It can be used by nearly any LLM to connect with practically any external resource.
 
