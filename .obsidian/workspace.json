@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "2db102ae5472a446",
+        "id": "1a9e4cd5050f6328",
         "type": "tabs",
         "children": [
           {
-            "id": "ee25b5df6a19b6df",
+            "id": "6aa46bdbc0867b00",
             "type": "leaf",
             "state": {
               "type": "empty",
@@ -161,15 +161,15 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "ee25b5df6a19b6df",
+  "active": "63ac10a6b70a7632",
   "lastOpenFiles": [
     "ROUGH NOTES/SAMPLE.md",
+    "TAGS/Gym.md",
+    "TAGS/Tech.md",
+    "LLM/RAG 1.md",
     "Automation/GIT REPO LLM FORMATTING 1.md",
     "RESOURCES/Pasted image 20250625165433.png",
     "RESOURCES/Pasted image 20250625164623.png",
-    "TAGS/Tech.md",
-    "TAGS/Gym.md",
-    "LLM/RAG 1.md",
     "Gym/FOREARM WORKOUTS 1.md",
     "RESOURCES",
     "LLM",
