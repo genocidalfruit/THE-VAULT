@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "TAGS/Tech.md",
+                "file": "TAGS/Gym.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Tech"
+              "title": "Gym"
             }
           }
         ]
@@ -167,15 +167,15 @@
   },
   "active": "6076dc9d07f05972",
   "lastOpenFiles": [
-    "TAGS/Gym.md",
-    "Rough Notes/SAMPLE.md",
-    "Finance/BUDGETING 1.md",
-    "Gym/PPL SPLIT 1.md",
     "Gym/FOREARM WORKOUTS 1.md",
+    "Gym/PPL SPLIT 1.md",
     "LLM/FINE TUNING 1.md",
     "LLM/RAG 1.md",
-    "Automation/OBSIDIAN AUTOMATION TODO.md",
+    "TAGS/Gym.md",
     "TAGS/Tech.md",
+    "Rough Notes/SAMPLE.md",
+    "Finance/BUDGETING 1.md",
+    "Automation/OBSIDIAN AUTOMATION TODO.md",
     "Automation/OBSIDIAN AUTOMATION PLAN.canvas",
     "Automation/GIT REPO LLM FORMATTING 1.md",
     "README.md",

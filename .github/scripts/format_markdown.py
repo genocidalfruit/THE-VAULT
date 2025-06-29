@@ -113,10 +113,10 @@ def format_markdown_with_deepseek_r1(content, file_path, is_tags_file_flag):
 3. **Format**: 
    - Proper heading hierarchy (# → ## → ### → ####)
    - Use `-` for lists, numbers only when sequence matters
-   - Add language IDs to code blocks
    - Emojis on main headings only
+   - Emojis should always come to the left of the heading text and to the right of the formatting ('#')
    - Consistent spacing
-4. **Tags Files**: Add 1-2 sentence descriptions for major sections
+4. **Tags Files**: Add 1-2 sentence descriptions for major sections. Make sure not to have a 'Tags' section in these files.
 5. **Output**: Return ONLY formatted markdown, no commentary or code blocks
 
 **Content**:
