@@ -1,6 +1,6 @@
-# 💪 Forearm Exercises
-
 Tags: [[Gym]]
+
+# 💪 Forearm Exercises
 
 🔗 Link: https://youtube.com/shorts/OG131ahIxEs?si=eiR3hhaRlGidA30W
 

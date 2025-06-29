@@ -38,6 +38,43 @@ def is_tags_file(file_path):
     lower_path = file_path.lower()
     return "tags" in lower_path or "tag" in os.path.basename(lower_path)
 
+def should_ignore_file(file_path):
+    """Check if a file should be ignored based on ignore rules."""
+    path_obj = Path(file_path)
+    file_path_str = str(path_obj)
+    
+    # Convert to forward slashes for consistent matching
+    normalized_path = file_path_str.replace("\\", "/")
+    
+    # Ignore rules
+    ignore_rules = [
+        # Any README.md files (case insensitive)
+        lambda p: p.name.lower() == "readme.md",
+        
+        # Any files or folders starting with dot
+        lambda p: any(part.startswith(".") for part in p.parts),
+        
+        # RESOURCES folder and its contents
+        lambda p: "RESOURCES" in p.parts or normalized_path.startswith("RESOURCES/"),
+        
+        # Rough Notes folder and its contents
+        lambda p: "Rough Notes" in p.parts or normalized_path.startswith("Rough Notes/"),
+        
+        # Additional common files to ignore
+        lambda p: p.name.lower() in ["changelog.md", "license.md", "contributing.md"]
+    ]
+    
+    # Check each ignore rule
+    for rule in ignore_rules:
+        try:
+            if rule(path_obj):
+                return True
+        except:
+            # If rule fails, continue to next rule
+            continue
+    
+    return False
+
 def find_all_markdown_files():
     """Find all markdown files in the repository."""
     markdown_files = []
@@ -48,29 +85,13 @@ def find_all_markdown_files():
         "**/*.markdown"
     ]
     
-    # Files to ignore
-    ignore_patterns = [
-        ".github/**",
-        ".git/**",
-        "**/README.md",
-        "**/readme.md",
-        "CHANGELOG.md",
-        "LICENSE.md"
-    ]
-    
     for pattern in patterns:
         for file_path in glob.glob(pattern, recursive=True):
             # Convert to Path object for easier manipulation
             path_obj = Path(file_path)
             
             # Check if file should be ignored
-            should_ignore = False
-            for ignore_pattern in ignore_patterns:
-                if path_obj.match(ignore_pattern.replace("**", "*")):
-                    should_ignore = True
-                    break
-            
-            if not should_ignore and path_obj.is_file():
+            if not should_ignore_file(file_path) and path_obj.is_file():
                 markdown_files.append(str(path_obj))
     
     return markdown_files
@@ -82,42 +103,23 @@ def format_markdown_with_deepseek_r1(content, file_path, is_tags_file_flag):
         print("❌ OPENROUTER_API_KEY is not set.")
         return content
 
-    prompt = f"""You are an expert markdown formatter. Your task is to improve the formatting and readability of markdown content while preserving all original meaning and information.
+    prompt = f"""Expert markdown formatter. Enhance formatting while preserving ALL content integrity.
 
-**File Path**: {file_path}
-**Special Context**: {'This is a knowledge base tag file' if is_tags_file_flag else 'This is a general markdown document'}
+**File**: {file_path} | **Type**: {'Tags file' if is_tags_file_flag else 'Standard doc'}
 
-**CRITICAL REQUIREMENTS**:
+**RULES**:
+1. **Tags Section**: Always add "Tags:" at top (plain text, no formatting), and make sure that each tag is in double square brackets ('[[]]')
+2. **Content**: Never alter meaning, URLs, technical details, or structure
+3. **Format**: 
+   - Proper heading hierarchy (# → ## → ### → ####)
+   - Use `-` for lists, numbers only when sequence matters
+   - Add language IDs to code blocks
+   - Emojis on main headings only
+   - Consistent spacing
+4. **Tags Files**: Add 1-2 sentence descriptions for major sections
+5. **Output**: Return ONLY formatted markdown, no commentary or code blocks
 
-1. **Tags Section**: ALWAYS ensure there is a "Tags:" section at the very top of every document (after the title if present). Format it exactly as:
-   ```
-   Tags: 
-   ```
-   (Plain text, no additional formatting, emojis, or styling)
-
-2. **Content Preservation**: 
-   - Never alter the actual information or meaning
-   - Preserve all URLs and link text exactly as provided
-   - Keep all technical details intact
-   - Maintain all existing content structure
-
-3. **Formatting Rules**:
-   - **Heading Hierarchy**: Ensure proper progression (# → ## → ### → ####)
-   - **List Consistency**: Use `-` for unordered lists, numbers only when sequence matters
-   - **Code Blocks**: Add appropriate language identifiers where missing
-   - **Spacing**: Maintain consistent spacing between sections
-   - **Visual Enhancement**: Add relevant emojis to main headings only (not subheadings or lists)
-
-4. **Special Instructions for TAGS Files**:
-   If this is a TAGS folder file, add a concise 1-2 sentence description at the beginning of each major section explaining what that tag category covers.
-
-5. **Output Requirements**:
-   - Return ONLY the formatted markdown content
-   - Do not wrap output in code blocks or add commentary
-   - If the content is already well-formatted, make minimal changes
-   - Maintain all original links, references, and technical details
-
-**Content to Format**:
+**Content**:
 {content}"""
 
     headers = {
@@ -130,7 +132,7 @@ def format_markdown_with_deepseek_r1(content, file_path, is_tags_file_flag):
     data = {
         "model": "deepseek/deepseek-r1",
         "messages": [
-            {"role": "system", "content": "You are a helpful markdown formatting assistant. Format the content while preserving all original meaning and information."},
+            {"role": "system", "content": "Format markdown while preserving all original content."},
             {"role": "user", "content": prompt}
         ],
         "max_tokens": 4096,
@@ -243,10 +245,20 @@ def main():
     
     # Find all markdown files
     markdown_files = find_all_markdown_files()
-    print(f"📄 Found {len(markdown_files)} markdown files to check")
+    
+    # Filter out any ignored files from stored hashes as well
+    filtered_files = []
+    for file_path in markdown_files:
+        if not should_ignore_file(file_path):
+            filtered_files.append(file_path)
+        else:
+            print(f"🚫 Ignored: {file_path}")
+    
+    markdown_files = filtered_files
+    print(f"📄 Found {len(markdown_files)} markdown files to check (after filtering)")
     
     if not markdown_files:
-        print("ℹ️  No markdown files found.")
+        print("ℹ️  No markdown files found after applying ignore rules.")
         sys.exit(0)
 
     updated_count = 0
@@ -266,9 +278,9 @@ def main():
     # Update stored hashes with new values
     stored_hashes.update(new_hashes)
     
-    # Remove hashes for files that no longer exist
+    # Remove hashes for files that no longer exist or are now ignored
     existing_files = set(markdown_files)
-    stored_hashes = {k: v for k, v in stored_hashes.items() if k in existing_files}
+    stored_hashes = {k: v for k, v in stored_hashes.items() if k in existing_files and not should_ignore_file(k)}
     
     # Save updated hashes
     save_stored_hashes(stored_hashes)
@@ -283,6 +295,7 @@ def main():
         print("✅ Files were updated and ready for commit.")
     else:
         print("ℹ️  No files needed formatting updates.")
+
 
 if __name__ == "__main__":
     main()

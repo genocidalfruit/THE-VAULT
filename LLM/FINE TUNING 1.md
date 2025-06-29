@@ -1,6 +1,6 @@
 Tags: [[Tech]]
 
-# 🔧 Fine Tuning
+## 🔧 Fine Tuning
 
 Fine tuning is the process of training an LLM on data to bake it into its weights. This allows for less contextualization in the prompts (shorter prompts). Fine tuning is useful in scenarios where the model has to be specialized for one purpose.
 

@@ -1,7 +1,4 @@
 # 💪 Workout Lists  
-Tags:  
-
-This section contains curated collections of workout routines specifically designed for forearm development and strength training.  
 
 [[FOREARM WORKOUTS 1]]  
 
