@@ -142,7 +142,7 @@ If this is a TAGS folder file, add a concise 1-2 sentence description at the beg
         result = response.json()
         
         # Extract the formatted content
-        formatted_content = result["choices"]["message"]["content"]
+        formatted_content = result["choices"][0]["message"]["content"]
         
         # Clean up any potential code block wrapping
         if formatted_content.startswith('```markdown'):
