@@ -53,7 +53,7 @@ jobs:
             LICENSE.md
           since_last_remote_commit: true
           separator: "\n"
-          quote_paths: true
+          quotepath: false
           safe_output: false
 
       - name: Debug changed files

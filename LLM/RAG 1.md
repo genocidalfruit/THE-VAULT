@@ -30,7 +30,7 @@ In the background, the embedding model continuously creates and updates machine-
 <br>
 
 ## Links for further reference
-This section provides external links for deeper understanding of RAG. 
+This section provides external links for deeper understanding of RAG.
 
 - [Langchain Blog](https://blog.langchain.com/tutorial-chatgpt-over-your-data/)
 - [Meta AI Blog](https://ai.meta.com/blog/retrieval-augmented-generation-streamlining-the-creation-of-intelligent-natural-language-processing-models/)
