@@ -1,3 +1,5 @@
+Tags: 
+
 # 🧠 Obsidian Vault
 
 Welcome! This repository contains my personal [Obsidian](https://obsidian.md) vault, published for sharing, learning, and collaboration. Obsidian is a powerful knowledge base that works on top of a local folder of plain text Markdown files.
@@ -33,9 +35,9 @@ To use or explore this vault:
    Download this repository as a ZIP or clone it using Git.
 
 2. **Open in Obsidian:**  
-   - Install [Obsidian](https://obsidian.md/download) if you haven't already.
-   - Open Obsidian and select "Open folder as vault".
-   - Choose the folder where you downloaded/cloned this repository.
+   - Install [Obsidian](https://obsidian.md/download) if you haven't already
+   - Open Obsidian and select "Open folder as vault"
+   - Choose the folder where you downloaded/cloned this repository
 
 3. **Explore:**  
    - Browse through the organized topic folders for polished content
