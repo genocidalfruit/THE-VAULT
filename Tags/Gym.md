@@ -1,13 +1,15 @@
-# 💪 Workout Lists  
+Tags:
+[[FOREARM WORKOUTS 1]]
+[[PPL SPLIT 1]]
 
+# 💪 Workout Lists  
 A collection of forearm-focused exercise routines to build strength and endurance.
 
-[[FOREARM WORKOUTS 1]]  
+[[FOREARM WORKOUTS 1]]
 
 ---
 
 # 🗓️ Splits  
-
-This section includes various training splits commonly used in workout programming to target different muscle groups effectively.  
+This section includes various training splits commonly used in workout programming to target different muscle groups effectively.
 
 [[PPL SPLIT 1]]
