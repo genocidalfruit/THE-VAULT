@@ -104,23 +104,20 @@ def format_markdown_with_deepseek_r1(content, file_path, is_tags_file_flag):
         return content
 
     prompt = f"""Expert markdown formatter. Enhance formatting while preserving ALL content integrity.
-
-**File**: {file_path} | **Type**: {'Tags file' if is_tags_file_flag else 'Standard doc'}
-
-**RULES**:
-1. **Tags Section**: Always add "Tags:" at top (plain text, no formatting), and make sure that each tag is in double square brackets ('[[]]')
-2. **Content**: Never alter meaning, URLs, technical details, or structure
-3. **Format**: 
-   - Proper heading hierarchy (# → ## → ### → ####)
-   - Use `-` for lists, numbers only when sequence matters
-   - Emojis on main headings only
-   - Emojis should always come to the left of the heading text and to the right of the formatting ('#')
-   - Consistent spacing
-4. **Tags Files**: Add 1-2 sentence descriptions for major sections. Make sure not to have a 'Tags' section in these files.
-5. **Output**: Return ONLY formatted markdown, no commentary or code blocks
-
-**Content**:
-{content}"""
+    **File**: {file_path} | **Type**: {'Tags file' if is_tags_file_flag else 'Standard doc'}
+    **RULES**:
+    1. **Tags Section**: {'Do not add Tags section (this is already a tags file)' if is_tags_file_flag else 'Always add "Tags:" at top (plain text, no formatting), and make sure that each tag is in double square brackets ("[[]]")'}
+    2. **Content**: Never alter meaning, URLs, technical details, or structure
+    3. **Format**:
+    - Proper heading hierarchy (# → ## → ### → ####)
+    - Use `-` for lists, numbers only when sequence matters
+    - Emojis on main headings only
+    - Emojis should always come to the left of the heading text and to the right of the formatting ('#')
+    - Consistent spacing
+    4. **Tags Files**: Add 1-2 sentence descriptions for major sections
+    5. **Output**: Return ONLY formatted markdown, no commentary or code blocks
+    **Content**:
+    {content}"""
 
     headers = {
         "Authorization": f"Bearer {api_key}",

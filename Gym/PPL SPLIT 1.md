@@ -1,4 +1,4 @@
-Tags: Gym
+Tags : [[Gym]]
 
 ### 🗓️ Monday: Push A (Strength – Chest, Shoulders, Triceps) 💪  
 *Focus on building strength for chest, shoulders, and triceps with compound lifts and targeted exercises.*

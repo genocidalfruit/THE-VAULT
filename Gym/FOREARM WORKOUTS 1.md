@@ -1,4 +1,4 @@
-Tags: [[Gym]]
+Tags : [[Gym]]
 
 # 💪 Forearm Exercises  
 
