@@ -7,7 +7,6 @@ def is_tags_file(file_path):
     Determine if the file is a TAGS file.
     Adjust this logic as needed for your repo structure.
     """
-    # Example: any file in a 'tags' folder or with 'tag' in the filename
     lower_path = file_path.lower()
     return ("tags" in lower_path or "tag" in os.path.basename(lower_path))
 
@@ -86,6 +85,7 @@ If this is a TAGS folder file, add a concise 1-2 sentence description at the beg
         )
         response.raise_for_status()
         result = response.json()
+        # OpenRouter returns a list of choices
         formatted_content = result["choices"]["message"]["content"]
 
         # Remove code block wrappers if present
@@ -114,7 +114,8 @@ def main():
         print("No changed markdown files to process.")
         sys.exit(0)
 
-    file_list = changed_files.strip().split()
+    # Split using newline to handle file paths with spaces
+    file_list = [f for f in changed_files.strip().split('\n') if f]
     if not file_list:
         print("No changed markdown files to process.")
         sys.exit(0)
