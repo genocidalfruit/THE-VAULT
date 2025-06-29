@@ -2,44 +2,78 @@ import os
 import sys
 import requests
 import hashlib
-import difflib
+import json
+import glob
+from pathlib import Path
+
+# Hash storage file
+HASH_FILE = ".github/.markdown_hashes.json"
+
+def calculate_content_hash(content):
+    """Calculate SHA256 hash of content."""
+    return hashlib.sha256(content.encode('utf-8')).hexdigest()
+
+def load_stored_hashes():
+    """Load previously stored file hashes."""
+    if os.path.exists(HASH_FILE):
+        try:
+            with open(HASH_FILE, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except (json.JSONDecodeError, IOError) as e:
+            print(f"⚠️  Warning: Could not load hash file: {e}")
+    return {}
+
+def save_stored_hashes(hashes):
+    """Save file hashes to storage."""
+    try:
+        # Ensure directory exists
+        os.makedirs(os.path.dirname(HASH_FILE), exist_ok=True)
+        with open(HASH_FILE, 'w', encoding='utf-8') as f:
+            json.dump(hashes, f, indent=2)
+    except IOError as e:
+        print(f"⚠️  Warning: Could not save hash file: {e}")
 
 def is_tags_file(file_path):
     """Check if the file is a tags file based on path or filename."""
     lower_path = file_path.lower()
     return "tags" in lower_path or "tag" in os.path.basename(lower_path)
 
-def calculate_content_hash(content):
-    """Calculate SHA256 hash of content for comparison."""
-    return hashlib.sha256(content.encode('utf-8')).hexdigest()
-
-def is_content_significantly_different(original, formatted):
-    """
-    Check if the formatted content is significantly different from original.
-    Uses multiple criteria to determine if changes are meaningful.
-    """
-    # Remove leading/trailing whitespace for comparison
-    original_clean = original.strip()
-    formatted_clean = formatted.strip()
+def find_all_markdown_files():
+    """Find all markdown files in the repository."""
+    markdown_files = []
     
-    # If exactly the same, no changes needed
-    if original_clean == formatted_clean:
-        return False
+    # Common markdown file patterns
+    patterns = [
+        "**/*.md",
+        "**/*.markdown"
+    ]
     
-    # Calculate similarity ratio
-    similarity = difflib.SequenceMatcher(None, original_clean, formatted_clean).ratio()
+    # Files to ignore
+    ignore_patterns = [
+        ".github/**",
+        ".git/**",
+        "**/README.md",
+        "**/readme.md",
+        "CHANGELOG.md",
+        "LICENSE.md"
+    ]
     
-    # If similarity is very high (>95%), consider it as no significant changes
-    if similarity > 0.95:
-        # Check if the only differences are minor formatting (spaces, newlines)
-        original_normalized = ' '.join(original_clean.split())
-        formatted_normalized = ' '.join(formatted_clean.split())
-        
-        if original_normalized == formatted_normalized:
-            return False
+    for pattern in patterns:
+        for file_path in glob.glob(pattern, recursive=True):
+            # Convert to Path object for easier manipulation
+            path_obj = Path(file_path)
+            
+            # Check if file should be ignored
+            should_ignore = False
+            for ignore_pattern in ignore_patterns:
+                if path_obj.match(ignore_pattern.replace("**", "*")):
+                    should_ignore = True
+                    break
+            
+            if not should_ignore and path_obj.is_file():
+                markdown_files.append(str(path_obj))
     
-    # If we reach here, there are significant differences
-    return True
+    return markdown_files
 
 def format_markdown_with_deepseek_r1(content, file_path, is_tags_file_flag):
     """Format markdown content using DeepSeek R1 model via OpenRouter API."""
@@ -94,13 +128,13 @@ def format_markdown_with_deepseek_r1(content, file_path, is_tags_file_flag):
     }
 
     data = {
-        "model": "deepseek/deepseek-r1",  # Updated model name
+        "model": "deepseek/deepseek-r1",
         "messages": [
             {"role": "system", "content": "You are a helpful markdown formatting assistant. Format the content while preserving all original meaning and information."},
             {"role": "user", "content": prompt}
         ],
-        "max_tokens": 4096,  # Increased token limit
-        "temperature": 0.1,  # Slightly higher for better formatting creativity
+        "max_tokens": 4096,
+        "temperature": 0.1,
         "top_p": 1.0
     }
 
@@ -134,7 +168,7 @@ def format_markdown_with_deepseek_r1(content, file_path, is_tags_file_flag):
                 lines = lines[:-1]
             formatted_content = "\n".join(lines)
 
-        return formatted_content.strip() + "\n"  # Ensure single trailing newline
+        return formatted_content.strip() + "\n"
         
     except requests.exceptions.RequestException as e:
         print(f"❌ API request error for {file_path}: {e}")
@@ -146,22 +180,35 @@ def format_markdown_with_deepseek_r1(content, file_path, is_tags_file_flag):
         print(f"❌ Unexpected error formatting {file_path}: {e}")
         return content
 
-def process_file(file_path):
-    """Process a single markdown file."""
+def process_file(file_path, stored_hashes):
+    """Process a single markdown file based on hash comparison."""
     if not os.path.isfile(file_path):
         print(f"❌ File not found: {file_path}")
-        return False
+        return False, None
 
     try:
         with open(file_path, "r", encoding="utf-8") as f:
             original_content = f.read()
     except Exception as e:
         print(f"❌ Could not read {file_path}: {e}")
-        return False
+        return False, None
 
     if not original_content.strip():
         print(f"⏭️  Skipping empty file: {file_path}")
-        return False
+        return False, None
+
+    # Calculate current hash
+    current_hash = calculate_content_hash(original_content)
+    stored_hash = stored_hashes.get(file_path)
+
+    # Check if file has changed since last processing
+    if stored_hash == current_hash:
+        print(f"✅ No changes detected: {file_path}")
+        return False, current_hash
+
+    print(f"🔍 Hash changed for: {file_path}")
+    print(f"   Stored: {stored_hash[:8] if stored_hash else 'None'}...")
+    print(f"   Current: {current_hash[:8]}...")
 
     # Check if file is a tags file
     is_tags = is_tags_file(file_path)
@@ -169,58 +216,73 @@ def process_file(file_path):
     # Format the content
     formatted_content = format_markdown_with_deepseek_r1(original_content, file_path, is_tags)
     
-    # Check if changes are significant
-    if not is_content_significantly_different(original_content, formatted_content):
-        print(f"✅ No changes needed: {file_path}")
-        return False
-
-    # Write the formatted content back to file
-    try:
-        with open(file_path, "w", encoding="utf-8") as f:
-            f.write(formatted_content)
-        print(f"✅ Formatted: {file_path}")
-        return True
-    except Exception as e:
-        print(f"❌ Could not write {file_path}: {e}")
-        return False
+    # Calculate hash of formatted content
+    formatted_hash = calculate_content_hash(formatted_content)
+    
+    # Only write if the formatted content is different from original
+    if formatted_hash != current_hash:
+        try:
+            with open(file_path, "w", encoding="utf-8") as f:
+                f.write(formatted_content)
+            print(f"✅ Formatted and updated: {file_path}")
+            return True, formatted_hash
+        except Exception as e:
+            print(f"❌ Could not write {file_path}: {e}")
+            return False, current_hash
+    else:
+        print(f"ℹ️  Content unchanged after formatting: {file_path}")
+        return False, current_hash
 
 def main():
-    """Main function to process changed markdown files."""
-    changed_files = os.environ.get("CHANGED_FILES", "")
-    if not changed_files:
-        print("ℹ️  No changed markdown files to process.")
-        sys.exit(0)
-
-    # Parse the changed files list
-    file_list = []
-    for line in changed_files.strip().split('\n'):
-        if line.strip():
-            # Remove quotes if present
-            file_path = line.strip().strip('"').strip("'")
-            if file_path:
-                file_list.append(file_path)
-
-    if not file_list:
-        print("ℹ️  No valid markdown files to process.")
-        sys.exit(0)
-
-    print(f"🚀 Processing {len(file_list)} changed markdown file(s)...")
+    """Main function to process markdown files based on hash comparison."""
+    print("🚀 Starting hash-based markdown formatting...")
     
+    # Load stored hashes
+    stored_hashes = load_stored_hashes()
+    print(f"📊 Loaded {len(stored_hashes)} stored file hashes")
+    
+    # Find all markdown files
+    markdown_files = find_all_markdown_files()
+    print(f"📄 Found {len(markdown_files)} markdown files to check")
+    
+    if not markdown_files:
+        print("ℹ️  No markdown files found.")
+        sys.exit(0)
+
     updated_count = 0
-    for file_path in file_list:
-        print(f"\n📄 Processing: {file_path}")
-        if process_file(file_path):
-            updated_count += 1
-
-    print(f"\n📊 Summary: {updated_count} file(s) updated out of {len(file_list)} processed.")
+    new_hashes = {}
     
-    # Exit with appropriate code
+    for file_path in markdown_files:
+        print(f"\n📝 Checking: {file_path}")
+        was_updated, file_hash = process_file(file_path, stored_hashes)
+        
+        if was_updated:
+            updated_count += 1
+        
+        # Store the hash (either new formatted hash or original hash)
+        if file_hash:
+            new_hashes[file_path] = file_hash
+
+    # Update stored hashes with new values
+    stored_hashes.update(new_hashes)
+    
+    # Remove hashes for files that no longer exist
+    existing_files = set(markdown_files)
+    stored_hashes = {k: v for k, v in stored_hashes.items() if k in existing_files}
+    
+    # Save updated hashes
+    save_stored_hashes(stored_hashes)
+    print(f"💾 Saved {len(stored_hashes)} file hashes")
+
+    print(f"\n📊 Summary:")
+    print(f"   📄 Files checked: {len(markdown_files)}")
+    print(f"   ✅ Files updated: {updated_count}")
+    print(f"   💾 Hashes stored: {len(stored_hashes)}")
+    
     if updated_count > 0:
         print("✅ Files were updated and ready for commit.")
-        sys.exit(0)
     else:
         print("ℹ️  No files needed formatting updates.")
-        sys.exit(0)
 
 if __name__ == "__main__":
     main()

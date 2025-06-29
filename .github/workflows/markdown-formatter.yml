@@ -4,13 +4,6 @@ on:
   schedule:
     - cron: "30 21 * * *" # 3:00 AM IST (9:30 PM UTC)
   workflow_dispatch: # Allow manual triggering
-  push:
-    paths:
-      - '**/*.md'
-      - '**/*.markdown'
-    branches:
-      - main
-      - master
 
 jobs:
   format-markdown:
@@ -18,13 +11,12 @@ jobs:
     permissions:
       contents: write
       actions: read
-      pull-requests: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
@@ -37,69 +29,56 @@ jobs:
           pip install --upgrade pip
           pip install requests
 
-      - name: Get changed markdown files
-        id: changed-files
-        uses: tj-actions/changed-files@v44
-        with:
-          files: |
-            **/*.md
-            **/*.markdown
-          files_ignore: |
-            .github/**
-            .git/**
-            **/README.md
-            **/readme.md
-            CHANGELOG.md
-            LICENSE.md
-          since_last_remote_commit: true
-          separator: "\n"
-          quotepath: false
-          safe_output: false
-
-      - name: Debug changed files
-        if: steps.changed-files.outputs.any_changed == 'true'
+      - name: Create hash storage directory
         run: |
-          echo "Changed files detected:"
-          echo "${{ steps.changed-files.outputs.all_changed_files }}"
-          echo "Total files: ${{ steps.changed-files.outputs.all_changed_files_count }}"
+          mkdir -p .github
 
-      - name: Format changed markdown files
-        if: steps.changed-files.outputs.any_changed == 'true'
+      - name: Format markdown files using hash comparison
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
-          echo "🚀 Starting markdown formatting process..."
+          echo "🚀 Starting hash-based markdown formatting..."
           python .github/scripts/format_markdown.py
 
       - name: Check for changes after formatting
         id: git-changes
-        if: steps.changed-files.outputs.any_changed == 'true'
         run: |
-          git diff --quiet . || echo "changes=true" >> $GITHUB_OUTPUT
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "changes=true" >> $GITHUB_OUTPUT
+            echo "📝 Changes detected after formatting"
+            git status --short
+          else
+            echo "changes=false" >> $GITHUB_OUTPUT
+            echo "✅ No changes after formatting"
+          fi
 
       - name: Commit and push changes
-        if: steps.changed-files.outputs.any_changed == 'true' && steps.git-changes.outputs.changes == 'true'
+        if: steps.git-changes.outputs.changes == 'true'
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
+          
+          # Add all changes including the hash file
           git add .
+          
+          # Count modified files (excluding the hash file)
+          MODIFIED_FILES=$(git diff --cached --name-only | grep -E '\.(md|markdown)$' | wc -l)
+          
           git commit -m "🤖 Auto-format markdown files with DeepSeek R1
 
-          - Improved formatting and readability
-          - Added consistent heading hierarchy  
-          - Enhanced visual elements with emojis
+          - Improved formatting and readability using hash-based detection
+          - Enhanced visual elements with emojis and consistent structure
           - Maintained all original content and links
+          - Updated file hash tracking for future runs
           
-          Files processed: ${{ steps.changed-files.outputs.all_changed_files_count }}"
+          Files processed: ${MODIFIED_FILES} markdown files"
+          
           git push
 
-      - name: No changes summary
-        if: steps.changed-files.outputs.any_changed == 'true' && steps.git-changes.outputs.changes != 'true'
+      - name: Summary
         run: |
-          echo "✅ All markdown files are already properly formatted!"
-
-      - name: No files to process
-        if: steps.changed-files.outputs.any_changed != 'true'
-        run: |
-          echo "ℹ️ No markdown files were changed in this run."
+          if [ "${{ steps.git-changes.outputs.changes }}" == "true" ]; then
+            echo "✅ Markdown files have been formatted and committed!"
+          else
+            echo "ℹ️  All markdown files are already properly formatted based on hash comparison."
+          fi

@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "TAGS/Gym.md",
+                "file": "LLM/RAG 1.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Gym"
+              "title": "RAG 1"
             }
           }
         ]
@@ -167,14 +167,14 @@
   },
   "active": "6076dc9d07f05972",
   "lastOpenFiles": [
-    "Rough Notes/SAMPLE.md",
-    "LLM/RAG 1.md",
     "LLM/FINE TUNING 1.md",
+    "LLM/RAG 1.md",
+    "TAGS/Gym.md",
+    "Rough Notes/SAMPLE.md",
     "Gym/PPL SPLIT 1.md",
     "Gym/FOREARM WORKOUTS 1.md",
     "Finance/BUDGETING 1.md",
     "Automation/OBSIDIAN AUTOMATION TODO.md",
-    "TAGS/Gym.md",
     "TAGS/Tech.md",
     "Automation/OBSIDIAN AUTOMATION PLAN.canvas",
     "Automation/GIT REPO LLM FORMATTING 1.md",
