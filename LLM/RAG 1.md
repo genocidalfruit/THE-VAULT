@@ -1,6 +1,6 @@
 Tags: [[Tech]]
 
-## Retrieval Augmented Generation (RAG)
+🧠 ## Retrieval Augmented Generation (RAG)
 
 Retrieval Augmented Generation (RAG) is a technique that enhances large language models by integrating external knowledge sources, improving accuracy, reliability, and reducing hallucinations. It allows models to cite sources and clarify ambiguous queries, making it faster and less expensive than retraining models.
 
@@ -14,7 +14,7 @@ That makes the method faster and less expensive than retraining a model with add
 
 ![[Pasted image 20250625164623.png]]
 
-## RAG Functioning
+⚙️ ## RAG Functioning
 
 This section explains how RAG works, including the use of embeddings and vector databases to match queries with relevant knowledge.
 
@@ -29,7 +29,7 @@ In the background:
 
 ![[Pasted image 20250625165433.png]]
 
-## Links for Further Reference
+🔗 ## Links for Further Reference
 
 This section provides external links for deeper understanding of RAG:
 
