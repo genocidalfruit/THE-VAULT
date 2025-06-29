@@ -2,8 +2,15 @@ name: Daily Markdown Formatter
 
 on:
   schedule:
-    - cron: "30 21 * * *" # 3 AM IST (9:30 PM UTC)
-  workflow_dispatch:
+    - cron: "30 21 * * *" # 3:00 AM IST (9:30 PM UTC)
+  workflow_dispatch: # Allow manual triggering
+  push:
+    paths:
+      - '**/*.md'
+      - '**/*.markdown'
+    branches:
+      - main
+      - master
 
 jobs:
   format-markdown:
@@ -11,6 +18,7 @@ jobs:
     permissions:
       contents: write
       actions: read
+      pull-requests: write
 
     steps:
       - name: Checkout repository
@@ -41,9 +49,19 @@ jobs:
             .git/**
             **/README.md
             **/readme.md
+            CHANGELOG.md
+            LICENSE.md
           since_last_remote_commit: true
           separator: "\n"
-          quote_paths: true  # ✅ Ensures paths with spaces are handled correctly
+          quote_paths: true
+          safe_output: false
+
+      - name: Debug changed files
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: |
+          echo "Changed files detected:"
+          echo "${{ steps.changed-files.outputs.all_changed_files }}"
+          echo "Total files: ${{ steps.changed-files.outputs.all_changed_files_count }}"
 
       - name: Format changed markdown files
         if: steps.changed-files.outputs.any_changed == 'true'
@@ -51,18 +69,37 @@ jobs:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
-          echo "Formatting changed files:"
-          printf '%s\n' "$CHANGED_FILES"
+          echo "🚀 Starting markdown formatting process..."
           python .github/scripts/format_markdown.py
 
-      - name: Commit and push changes
+      - name: Check for changes after formatting
+        id: git-changes
         if: steps.changed-files.outputs.any_changed == 'true'
+        run: |
+          git diff --quiet . || echo "changes=true" >> $GITHUB_OUTPUT
+
+      - name: Commit and push changes
+        if: steps.changed-files.outputs.any_changed == 'true' && steps.git-changes.outputs.changes == 'true'
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add .
-          if git diff --staged --quiet; then
-            echo "No formatting changes detected"
-          else
-            git commit -m "🤖 Auto-format changed markdown files with DeepSeek"
-            git push
+          git commit -m "🤖 Auto-format markdown files with DeepSeek R1
+
+          - Improved formatting and readability
+          - Added consistent heading hierarchy  
+          - Enhanced visual elements with emojis
+          - Maintained all original content and links
+          
+          Files processed: ${{ steps.changed-files.outputs.all_changed_files_count }}"
+          git push
+
+      - name: No changes summary
+        if: steps.changed-files.outputs.any_changed == 'true' && steps.git-changes.outputs.changes != 'true'
+        run: |
+          echo "✅ All markdown files are already properly formatted!"
+
+      - name: No files to process
+        if: steps.changed-files.outputs.any_changed != 'true'
+        run: |
+          echo "ℹ️ No markdown files were changed in this run."
