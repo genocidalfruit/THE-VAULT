@@ -4,42 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "5491ac3db3f33f5c",
+        "id": "8ea4a907536de018",
         "type": "tabs",
         "children": [
           {
-            "id": "18b88801726f559c",
-            "type": "leaf",
-            "state": {
-              "type": "canvas",
-              "state": {
-                "file": "Automation/OBSIDIAN AUTOMATION PLAN.canvas",
-                "viewState": {
-                  "x": 145.18861734936766,
-                  "y": 178.07934453085878,
-                  "zoom": -0.6085805966240299
-                }
-              },
-              "icon": "lucide-layout-dashboard",
-              "title": "OBSIDIAN AUTOMATION PLAN"
-            }
-          },
-          {
-            "id": "773e3c3e61d882ee",
+            "id": "6076dc9d07f05972",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Automation/OBSIDIAN AUTOMATION TODO.md",
+                "file": "TAGS/Gym.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "OBSIDIAN AUTOMATION TODO"
+              "title": "Gym"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -183,18 +165,20 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "773e3c3e61d882ee",
+  "active": "6076dc9d07f05972",
   "lastOpenFiles": [
-    "Automation/OBSIDIAN AUTOMATION PLAN.canvas",
-    "Automation/OBSIDIAN AUTOMATION TODO.md",
-    "Finance/BUDGETING 1.md",
-    "Automation/GIT REPO LLM FORMATTING 1.md",
+    "Rough Notes/SAMPLE.md",
     "LLM/RAG 1.md",
-    "Gym/FOREARM WORKOUTS 1.md",
+    "LLM/FINE TUNING 1.md",
     "Gym/PPL SPLIT 1.md",
-    "README.md",
-    "TAGS/Tech.md",
+    "Gym/FOREARM WORKOUTS 1.md",
+    "Finance/BUDGETING 1.md",
+    "Automation/OBSIDIAN AUTOMATION TODO.md",
     "TAGS/Gym.md",
+    "TAGS/Tech.md",
+    "Automation/OBSIDIAN AUTOMATION PLAN.canvas",
+    "Automation/GIT REPO LLM FORMATTING 1.md",
+    "README.md",
     "ROUGH NOTES/SAMPLE.md",
     "RESOURCES/Pasted image 20250625165433.png",
     "RESOURCES/Pasted image 20250625164623.png",
