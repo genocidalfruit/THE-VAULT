@@ -17,12 +17,6 @@
     "original_hash": "051a0effef50a0d4c267427716cc9ab7",
     "model_used": "deepseek-r1-0528-qwen3-8b"
   },
-  "Automation/GIT REPO LLM FORMATTING 1.md": {
-    "hash": "2f66168906da802f09e760fc1c15ec70",
-    "last_formatted": 1750918384.6765482,
-    "original_hash": "2f66168906da802f09e760fc1c15ec70",
-    "model_used": "deepseek-r1-0528-qwen3-8b"
-  },
   "Tags/Gym.md": {
     "hash": "af30c6755d9d208cc5dba38c8fe66182",
     "last_formatted": 1750917644.1557424,
@@ -30,15 +24,27 @@
     "model_used": "deepseek-r1-0528-qwen3-8b"
   },
   "LLM/RAG 1.md": {
-    "hash": "407e85a2317207cacf2f46d9958596ae",
-    "last_formatted": 1750918424.8211644,
-    "original_hash": "407e85a2317207cacf2f46d9958596ae",
+    "hash": "fa81fb1f80a5a3e0b2867f02dd93bfd4",
+    "last_formatted": 1751184428.5640943,
+    "original_hash": "fa81fb1f80a5a3e0b2867f02dd93bfd4",
     "model_used": "deepseek-r1-0528-qwen3-8b"
   },
   "Rough Notes/SAMPLE.md": {
     "hash": "3352c44ce89dd10ecdca2a7fb1b65621",
     "last_formatted": 1750918478.2017531,
     "original_hash": "3352c44ce89dd10ecdca2a7fb1b65621",
+    "model_used": "deepseek-r1-0528-qwen3-8b"
+  },
+  "Automation/OBSIDIAN AUTOMATION TODO.md": {
+    "hash": "33fc11945c4d6c6c6dc86c05226362b7",
+    "last_formatted": 1751184396.273171,
+    "original_hash": "33fc11945c4d6c6c6dc86c05226362b7",
+    "model_used": "deepseek-r1-0528-qwen3-8b"
+  },
+  "LLM/FINE TUNING 1.md": {
+    "hash": "6ecf7b971f41bb107cb5ef3bb035fbc2",
+    "last_formatted": 1751184409.838444,
+    "original_hash": "6ecf7b971f41bb107cb5ef3bb035fbc2",
     "model_used": "deepseek-r1-0528-qwen3-8b"
   }
 }
