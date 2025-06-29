@@ -40,11 +40,5 @@
     "last_formatted": 1751184396.273171,
     "original_hash": "33fc11945c4d6c6c6dc86c05226362b7",
     "model_used": "deepseek-r1-0528-qwen3-8b"
-  },
-  "LLM/FINE TUNING 1.md": {
-    "hash": "6ecf7b971f41bb107cb5ef3bb035fbc2",
-    "last_formatted": 1751184409.838444,
-    "original_hash": "6ecf7b971f41bb107cb5ef3bb035fbc2",
-    "model_used": "deepseek-r1-0528-qwen3-8b"
   }
 }
