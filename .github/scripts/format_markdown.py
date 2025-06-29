@@ -3,12 +3,8 @@ import sys
 import requests
 
 def is_tags_file(file_path):
-    """
-    Determine if the file is a TAGS file.
-    Adjust this logic as needed for your repo structure.
-    """
     lower_path = file_path.lower()
-    return ("tags" in lower_path or "tag" in os.path.basename(lower_path))
+    return "tags" in lower_path or "tag" in os.path.basename(lower_path)
 
 def format_markdown_with_deepseek_r1(content, file_path, is_tags_file_flag):
     api_key = os.environ.get("OPENROUTER_API_KEY")
@@ -33,7 +29,7 @@ If the document already has a Tags section, keep it at the top. If it doesn't ha
 **Core Formatting Rules**:
 1. **Heading Hierarchy**: Ensure proper progression (# → ## → ### → ####)
 2. **List Consistency**: Use `-` for unordered lists, numbers only when sequence matters
-3. **Code Blocks**: Add appropriate language identifiers (```
+3. **Code Blocks**: Add appropriate language identifiers (```)
 4. **Spacing**: Maintain consistent spacing between sections
 5. **Links**: Preserve all URLs and link text exactly as provided
 6. **Content Preservation**: Never alter the actual information, only improve presentation
@@ -71,7 +67,7 @@ If this is a TAGS folder file, add a concise 1-2 sentence description at the beg
             {"role": "system", "content": "You are a helpful markdown formatting assistant."},
             {"role": "user", "content": prompt}
         ],
-        "max_tokens": 4096,
+        "max_tokens": 2048,
         "temperature": 0.0,
         "top_p": 1.0
     }
@@ -85,19 +81,15 @@ If this is a TAGS folder file, add a concise 1-2 sentence description at the beg
         )
         response.raise_for_status()
         result = response.json()
-        # OpenRouter returns a list of choices
-        formatted_content = result["choices"]["message"]["content"]
+        formatted_content = result["choices"][0]["message"]["content"]
 
-        # Remove code block wrappers if present
         if formatted_content.startswith("```"):
-            # Remove the first line entirely (``` or ```markdown)
             lines = formatted_content.splitlines()
             if len(lines) > 1 and lines[0].startswith("```"):
                 lines = lines[1:]
             formatted_content = "\n".join(lines)
 
         if formatted_content.endswith("```"):
-            # Remove the last line entirely if it's ```
             lines = formatted_content.splitlines()
             if lines and lines[-1].strip() == "```":
                 lines = lines[:-1]
@@ -114,8 +106,7 @@ def main():
         print("No changed markdown files to process.")
         sys.exit(0)
 
-    # Split using newline to handle file paths with spaces
-    file_list = [f for f in changed_files.strip().split('\n') if f]
+    file_list = [f.strip().strip('"') for f in changed_files.strip().split('\n') if f]
     if not file_list:
         print("No changed markdown files to process.")
         sys.exit(0)
@@ -149,7 +140,7 @@ def main():
             except Exception as e:
                 print(f"Could not write {file_path}: {e}")
         else:
-            print(f"🟡 No changes needed: {file_path}")
+            print(f"No changes needed: {file_path}")
 
     print(f"\nSummary: {updated} file(s) updated out of {len(file_list)} changed.")
 

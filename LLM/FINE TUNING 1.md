@@ -13,4 +13,4 @@ Fine tuning is the process of training an LLM on data to bake it into its weight
 
 - https://www.linkedin.com/pulse/geek-out-time-part-2-super-cheap-fine-tuning-deepseek-7b-nedved-yang-xe0jc - Describes fine tuning of Deepseek-7b to serve as a Chinese tutoring QA chatbot
 - https://www.perplexity.ai/search/how-do-i-fine-tune-an-llm-for-LJ4TQG5hQsKuJ2o3EuNexQ - My Perplexity chat (contains steps for LLM powered DND application)
-- https://kennycason.com/posts/2025-03-10-finetuning-deepseek-coder-6.7b.html - Code for a coding based Deepseek-6.7B model fine tuning
+- https://kennycason.com/posts/2025-03-10-finetuning-deepseek-coder-6.7b.html - Code for a coding based Deepseek-6.7B model fine tuning 

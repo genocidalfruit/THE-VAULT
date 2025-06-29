@@ -1,4 +1,4 @@
-name: Daily Markdown Formatter with DeepSeek
+name: Daily Markdown Formatter
 
 on:
   schedule:
@@ -43,6 +43,7 @@ jobs:
             **/readme.md
           since_last_remote_commit: true
           separator: "\n"
+          quote_paths: true  # ✅ Ensures paths with spaces are handled correctly
 
       - name: Format changed markdown files
         if: steps.changed-files.outputs.any_changed == 'true'
@@ -65,4 +66,3 @@ jobs:
           else
             git commit -m "🤖 Auto-format changed markdown files with DeepSeek"
             git push
-          fi
