@@ -34,9 +34,20 @@ def save_stored_hashes(hashes):
         print(f"⚠️  Warning: Could not save hash file: {e}")
 
 def is_tags_file(file_path):
-    """Check if the file is a tags file based on path or filename."""
-    lower_path = file_path.lower()
-    return "tags" in lower_path or "tag" in os.path.basename(lower_path)
+    """Check if the file is a tags file only if it's in the TAGS/ folder."""
+    path_obj = Path(file_path)
+    
+    # Check if file is in TAGS/ folder (case insensitive)
+    normalized_path = str(path_obj).replace("\\", "/")
+    if "TAGS/" in normalized_path.upper() or normalized_path.upper().startswith("TAGS/"):
+        return True
+    
+    # Check if any parent directory is named TAGS (case insensitive)
+    for part in path_obj.parts:
+        if part.upper() == "TAGS":
+            return True
+    
+    return False
 
 def should_ignore_file(file_path):
     """Check if a file should be ignored based on ignore rules."""
@@ -96,7 +107,7 @@ def find_all_markdown_files():
     
     return markdown_files
 
-def format_markdown_with_deepseek_r1(content, file_path, is_tags_file_flag):
+def format_markdown_with_deepseek_r1(content, file_path, is_tags):
     """Format markdown content using DeepSeek R1 model via OpenRouter API."""
     api_key = os.environ.get("OPENROUTER_API_KEY")
     if not api_key:
@@ -104,9 +115,9 @@ def format_markdown_with_deepseek_r1(content, file_path, is_tags_file_flag):
         return content
 
     prompt = f"""Expert markdown formatter. Enhance formatting while preserving ALL content integrity.
-    **File**: {file_path} | **Type**: {'Tags file' if is_tags_file_flag else 'Standard doc'}
+    **File**: {file_path} | **Type**: {'Tags file' if is_tags else 'Standard doc'}
     **RULES**:
-    1. **Tags Section**: {'Do not add Tags section (this is already a tags file)' if is_tags_file_flag else 'Always add "Tags:" at top (plain text, no formatting), and make sure that each tag is in double square brackets ("[[]]")'}
+    1. **Tags Section**: {'Do not add any Tags sections (this is already a tags file)' if is_tags else 'Always add "Tags:" at top (plain text, no formatting), and make sure that each tag is in double square brackets ("[[]]")'}
     2. **Content**: Never alter meaning, URLs, technical details, or structure
     3. **Format**:
     - Proper heading hierarchy (# → ## → ### → ####)
