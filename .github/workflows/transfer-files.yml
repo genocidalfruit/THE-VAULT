@@ -1,0 +1,64 @@
+name: Transfer Files from THE-VAULT to VAULT-front
+
+on:
+  # Trigger on push to main branch of THE-VAULT
+  # push:
+  #  branches: [main]
+
+  # Allow manual triggering
+  workflow_dispatch:
+
+jobs:
+  transfer-files:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout THE-VAULT repository
+        uses: actions/checkout@v4
+        with:
+          repository: genocidalfruit/THE-VAULT
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: source-repo
+
+      - name: Checkout VAULT-front repository
+        uses: actions/checkout@v4
+        with:
+          repository: genocidalfruit/VAULT-front
+          token: ${{ secrets.VAULT_FRONT_TOKEN }}
+          path: dest-repo
+
+      - name: Transfer files
+        run: |
+          # Create the destination directory if it doesn't exist
+          mkdir -p dest-repo/src/content/posts
+
+          # Copy all files from THE-VAULT to ./src/content/posts in VAULT-front
+          # Excluding specific files and folders as requested
+          rsync -av \
+            --exclude='.*' \
+            --exclude='README.md' \
+            --exclude='TAGS/' \
+            --exclude='RESOURCES/' \
+            --exclude='Rough Notes/' \
+            source-repo/ dest-repo/src/content/posts/
+
+          # Show what files were copied (for debugging)
+          echo "Files in destination:"
+          ls -la dest-repo/src/content/posts/
+
+      - name: Commit and push changes
+        run: |
+          cd dest-repo
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          # Add all changes
+          git add .
+
+          # Check if there are any changes to commit
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Auto-sync files from THE-VAULT - $(date)"
+            git push
+          fi
