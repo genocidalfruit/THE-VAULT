@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "72c676b36ee1e5ff",
+        "id": "b2d04e6f44b0ffb7",
         "type": "tabs",
         "children": [
           {
-            "id": "674e490cc18009e5",
+            "id": "d41c2dcbcef13daf",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "TAGS/Tech.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "Tech"
             }
           }
         ]
@@ -161,7 +165,7 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "674e490cc18009e5",
+  "active": "d41c2dcbcef13daf",
   "lastOpenFiles": [
     "TAGS/Gym.md",
     "TAGS/Tech.md",

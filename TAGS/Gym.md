@@ -1,9 +1,7 @@
-# 🏋️ Exercises  
-Workout routines targeting forearm strength and muscle development.  
+# Exercises  
 
 - [[FOREARM WORKOUTS 1]]  
 
-# 🏃♂️ Splits  
-Training plans that divide workouts by muscle groups or movement patterns.  
+# 🏃Splits  
 
 - [[PPL SPLIT 1]]
