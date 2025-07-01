@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "e65466ef8791786b",
+        "id": "72c676b36ee1e5ff",
         "type": "tabs",
         "children": [
           {
-            "id": "3878b88a4bff2c83",
+            "id": "674e490cc18009e5",
             "type": "leaf",
             "state": {
               "type": "empty",
@@ -161,15 +161,15 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "3878b88a4bff2c83",
+  "active": "674e490cc18009e5",
   "lastOpenFiles": [
-    "TAGS/Tech.md",
     "TAGS/Gym.md",
-    "Gym/FOREARM WORKOUTS 1.md",
+    "TAGS/Tech.md",
     "Finance/BUDGETING 1.md",
+    "Gym/FOREARM WORKOUTS 1.md",
     "Gym/PPL SPLIT 1.md",
-    "LLM/RAG 1.md",
     "LLM/FINE TUNING 1.md",
+    "LLM/RAG 1.md",
     "Rough Notes/SAMPLE.md",
     "Automation/OBSIDIAN AUTOMATION TODO.md",
     "Automation/OBSIDIAN AUTOMATION PLAN.canvas",
