@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "857575a8c7afc492",
+        "id": "cb8f9585350c6926",
         "type": "tabs",
         "children": [
           {
-            "id": "e4d69128bd470316",
+            "id": "0659277b64862582",
             "type": "leaf",
             "state": {
               "type": "empty",
@@ -74,7 +74,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 200
   },
   "right": {
     "id": "8fe84583ee8ea4cf",
@@ -161,14 +161,17 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "e4d69128bd470316",
+  "active": "0659277b64862582",
   "lastOpenFiles": [
-    "TAGS/Gym.md",
     "TAGS/Tech.md",
+    "TAGS/Gym.md",
+    "LLM/LANGCHAIN 1.md",
+    "LLM/FINE TUNING 1.md",
+    "LANGGRAPH 1.md",
+    "RESOURCES/Pasted image 20250625164623.png",
     "Finance/BUDGETING 1.md",
     "Gym/FOREARM WORKOUTS 1.md",
     "Gym/PPL SPLIT 1.md",
-    "LLM/FINE TUNING 1.md",
     "LLM/RAG 1.md",
     "Rough Notes/SAMPLE.md",
     "Automation/OBSIDIAN AUTOMATION TODO.md",
@@ -177,7 +180,6 @@
     "README.md",
     "ROUGH NOTES/SAMPLE.md",
     "RESOURCES/Pasted image 20250625165433.png",
-    "RESOURCES/Pasted image 20250625164623.png",
     "RESOURCES",
     "LLM",
     "Automation",
