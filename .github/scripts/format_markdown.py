@@ -7,6 +7,7 @@ import sys
 from typing import Dict, Optional
 
 
+
 # --- Configuration ---
 # API Key is read from the GitHub Actions environment variable
 OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY")
@@ -16,10 +17,12 @@ MODEL_NAME = "qwen/qwen3-coder:free"
 HASH_FILE_PATH = ".github/file_hashes.json"
 MAX_RETRIES = 5
 
+
 # Excluded paths and files
 EXCLUDED_DIRS = {'.git', 'Rough Notes'}  # Directories to skip entirely
 EXCLUDED_FILES = {'README.md'}  # Specific files to skip
 TAGS_FOLDER = 'TAGS'  # Special folder with different formatting rules
+
 
 
 # --- LLM System Instructions ---
@@ -44,6 +47,7 @@ CRITICAL RULES:
 - If content is already perfectly formatted, return it unchanged.
 """
 
+
 # Special prompt for TAGS folder files
 TAGS_SYSTEM_PROMPT = """You are a specialized editor for Obsidian tag description files. Perform these exact tasks on the provided Markdown content:
 
@@ -65,7 +69,9 @@ CRITICAL RULES:
 """
 
 
+
 # --- Hashing Functions ---
+
 
 
 def get_file_hash(filepath: str) -> str:
@@ -75,6 +81,16 @@ def get_file_hash(filepath: str) -> str:
         buf = f.read()
         hasher.update(buf)
     return hasher.hexdigest()
+
+
+
+def is_file_empty(filepath: str) -> bool:
+    """Checks if a file is completely empty (0 bytes)."""
+    try:
+        return os.path.getsize(filepath) == 0
+    except OSError:
+        return False
+
 
 
 def load_hashes() -> Dict[str, str]:
@@ -95,6 +111,7 @@ def load_hashes() -> Dict[str, str]:
     return hashes
 
 
+
 def save_hashes(hashes: Dict[str, str]):
     """Saves the current file hashes to the JSON tracking file."""
     print(f"Saving {len(hashes)} hashes to {HASH_FILE_PATH}...")
@@ -108,7 +125,9 @@ def save_hashes(hashes: Dict[str, str]):
         print(f"Error saving hashes to {HASH_FILE_PATH}: {e}")
 
 
+
 # --- LLM Communication ---
+
 
 
 def call_openrouter_api(content: str, is_tags_file: bool = False) -> Optional[str]:
@@ -166,13 +185,17 @@ def call_openrouter_api(content: str, is_tags_file: bool = False) -> Optional[st
     return None
 
 
+
 # --- Main Logic ---
+
 
 
 def should_skip_path(root: str, file: str, filepath: str) -> bool:
     """Determine if a file or directory should be skipped based on exclusion rules."""
-    # Skip specific files like README.md
-    if os.path.basename(filepath) in EXCLUDED_FILES:
+    filename = os.path.basename(filepath)
+    
+    # Skip specific files like README.md (check by filename only)
+    if filename in EXCLUDED_FILES:
         return True
     
     # Check if in excluded directory (including subpaths)
@@ -185,6 +208,7 @@ def should_skip_path(root: str, file: str, filepath: str) -> bool:
         return False
     
     return False
+
 
 
 def process_markdown_files():
@@ -202,8 +226,8 @@ def process_markdown_files():
         # Modify dirs in-place to prune excluded directories
         dirs[:] = [d for d in dirs if d not in EXCLUDED_DIRS]
         
-        # Additional skip for hidden directories
-        dirs[:] = [d for d in dirs if not d.startswith('.')]
+        # Additional skip for hidden directories (except .github where we store hashes)
+        dirs[:] = [d for d in dirs if not (d.startswith('.') and d != '.github')]
         
         if should_skip_path(root, '', root):  # Skip the root if needed
             continue
@@ -215,15 +239,24 @@ def process_markdown_files():
                 # Normalize path for consistent hashing across different OS/environments
                 norm_path = os.path.normpath(filepath)
                 
-                # Skip excluded files and paths
+                # Early exclusion check - catch README.md and excluded paths
                 if should_skip_path(root, file, filepath):
                     print(f"Skipping excluded file: {norm_path}")
                     # Still track its hash to avoid unnecessary future checks
                     try:
                         current_hash = get_file_hash(filepath)
                         new_hashes[norm_path] = current_hash
-                    except Exception:
+                    except Exception as e:
+                        print(f"Could not hash excluded file {norm_path}: {e}")
                         pass  # If can't read excluded file, skip silently
+                    continue
+                
+                # Check if file is completely empty - skip empty files
+                if is_file_empty(filepath):
+                    print(f"Skipping empty file: {norm_path}")
+                    # Track empty hash for consistency
+                    empty_hash = hashlib.sha256(b'').hexdigest()
+                    new_hashes[norm_path] = empty_hash
                     continue
                 
                 current_content = None
