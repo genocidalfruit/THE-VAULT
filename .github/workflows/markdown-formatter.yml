@@ -60,7 +60,7 @@ jobs:
           # Count modified files (excluding the hash file)
           MODIFIED_FILES=$(git diff --cached --name-only | grep -E '\.(md|markdown)$' | wc -l)
           
-          git commit -m "🤖 Auto-format markdown files with DeepSeek R1
+          git commit -m "[AUTO] Auto-format markdown files
           - Improved formatting and readability using hash-based detection
           - Enhanced visual elements with emojis and consistent structure
           - Maintained all original content and links
