@@ -1,9 +1,8 @@
 name: Push to VAULT-front
 
 on:
-  push:
-    branches:
-      - main
+  schedule:
+    - cron: "30 23 * * *" # 5:00 AM IST (11:30 PM UTC)
   workflow_dispatch:
 
 jobs:
