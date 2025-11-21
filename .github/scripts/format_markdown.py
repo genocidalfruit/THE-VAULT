@@ -6,29 +6,22 @@ import time
 import sys
 from typing import Dict, Optional
 
-
-
 # --- Configuration ---
-# API Key is read from the GitHub Actions environment variable
 OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY")
 API_URL = "https://openrouter.ai/api/v1/chat/completions"
-# Using DeepSeek Coder for reliable instruction following and output formatting
 MODEL_NAME = "qwen/qwen3-coder:free"
 HASH_FILE_PATH = ".github/file_hashes.json"
 MAX_RETRIES = 5
-
+RATE_LIMIT_DELAY = 60
+MAX_RATE_LIMIT_ATTEMPTS = 3
 
 # Excluded paths and files
-EXCLUDED_DIRS = {'.git', 'Rough Notes'}  # Directories to skip entirely
-EXCLUDED_FILES = {'README.md'}  # Specific files to skip
-TAGS_FOLDER = 'TAGS'  # Special folder with different formatting rules
-
-
+EXCLUDED_DIRS = {'.git', 'Rough Notes'}
+EXCLUDED_FILES = {'README.md'}
+TAGS_FOLDER = 'TAGS'
 
 # --- LLM System Instructions ---
-# Standard prompt for regular Markdown files
 STANDARD_SYSTEM_PROMPT = """You are a highly specialized Markdown formatter for Obsidian notes. Perform exactly two tasks on the provided content:
-
 1. **Standardize Formatting**: Clean up the Markdown by:
    - Removing trailing whitespace from all lines
    - Ensuring consistent indentation (use 2 spaces for nested lists and code blocks)
@@ -47,16 +40,9 @@ CRITICAL RULES:
 - If content is already perfectly formatted, return it unchanged.
 """
 
-
-# Special prompt for TAGS folder files
 TAGS_SYSTEM_PROMPT = """You are a specialized editor for Obsidian tag description files. Perform these exact tasks on the provided Markdown content:
-
-1. **Add Emojis to Headings**: ONLY modify H1 (#), H2 (##), and H3 (###) headings by prepending ONE relevant, professional emoji directly before the heading text. Choose emojis that represent the tag's theme or purpose. Examples:
-   - For topics: 📚, 💡, 🎯
-   - For categories: 🏷️, 📂, 🔖
-   - Keep it simple and meaningful.
-
-2. **Add Brief Descriptions**: AFTER each H1, H2, or H3 heading (but before any existing content under it), add exactly ONE new paragraph providing a brief, 1-2 sentence description of what the heading represents. The description should be helpful for someone discovering the tag but should not repeat or alter the heading text.
+1. **Add Emojis to Headings**: ONLY modify H1 (#), H2 (##), and H3 (###) headings by prepending ONE relevant, professional emoji directly before the heading text. Choose emojis that represent the tag's theme or purpose.
+2. **Add Brief Descriptions**: AFTER each H1, H2, or H3 heading (but before any existing content under it), add exactly ONE new paragraph providing a brief, 1-2 sentence description of what the heading represents.
 
 CRITICAL RULES:
 - Do NOT modify the heading levels or text (except adding the emoji).
@@ -68,38 +54,24 @@ CRITICAL RULES:
 - If the file is already properly formatted with descriptions, return it unchanged.
 """
 
-
-
-# --- Hashing Functions ---
-
-
-
 def get_file_hash(filepath: str) -> str:
-    """Calculates the SHA256 hash of a file's content."""
     hasher = hashlib.sha256()
     with open(filepath, 'rb') as f:
         buf = f.read()
         hasher.update(buf)
     return hasher.hexdigest()
 
-
-
 def is_file_empty(filepath: str) -> bool:
-    """Checks if a file is completely empty (0 bytes)."""
     try:
         return os.path.getsize(filepath) == 0
     except OSError:
         return False
 
-
-
 def load_hashes() -> Dict[str, str]:
-    """Loads previous file hashes from the JSON tracking file."""
     hashes = {}
     if not os.path.exists(HASH_FILE_PATH):
         print(f"No previous hashes file found at {HASH_FILE_PATH}.")
         return hashes
-    
     print(f"Loading previous hashes from {HASH_FILE_PATH}...")
     try:
         with open(HASH_FILE_PATH, 'r', encoding='utf-8') as f:
@@ -110,12 +82,8 @@ def load_hashes() -> Dict[str, str]:
         hashes = {}
     return hashes
 
-
-
 def save_hashes(hashes: Dict[str, str]):
-    """Saves the current file hashes to the JSON tracking file."""
     print(f"Saving {len(hashes)} hashes to {HASH_FILE_PATH}...")
-    # Ensure the directory exists before saving
     os.makedirs(os.path.dirname(HASH_FILE_PATH), exist_ok=True)
     try:
         with open(HASH_FILE_PATH, 'w', encoding='utf-8') as f:
@@ -124,27 +92,18 @@ def save_hashes(hashes: Dict[str, str]):
     except IOError as e:
         print(f"Error saving hashes to {HASH_FILE_PATH}: {e}")
 
-
-
-# --- LLM Communication ---
-
-
-
 def call_openrouter_api(content: str, is_tags_file: bool = False) -> Optional[str]:
-    """Calls the OpenRouter API with exponential backoff, using appropriate prompt."""
     if not OPENROUTER_API_KEY:
         print("ERROR: OPENROUTER_API_KEY not set.")
         return None
-        
+    
     headers = {
         "Authorization": f"Bearer {OPENROUTER_API_KEY}",
         "Content-Type": "application/json",
-        "HTTP-Referer": "https://github.com/github-actions-bot/obsidian-formatter",  # Required for OpenRouter to log usage correctly
+        "HTTP-Referer": "https://github.com/github-actions-bot/obsidian-formatter",
         "X-Title": "Obsidian Markdown Formatter Action",
     }
-    
     system_prompt = TAGS_SYSTEM_PROMPT if is_tags_file else STANDARD_SYSTEM_PROMPT
-    
     payload = {
         "model": MODEL_NAME,
         "messages": [
@@ -152,163 +111,161 @@ def call_openrouter_api(content: str, is_tags_file: bool = False) -> Optional[st
             {"role": "user", "content": content}
         ]
     }
-
+    rate_limit_attempts = 0
     attempt = 0
     while attempt < MAX_RETRIES:
         try:
-            print(f"Attempt {attempt + 1}: Sending file to LLM...")
-            response = requests.post(API_URL, headers=headers, json=payload, timeout=60)
-            
+            print(f"Attempt {attempt + 1}: Sending file to LLM ({MODEL_NAME})...")
+            response = requests.post(API_URL, headers=headers, json=payload, timeout=90)
             if response.status_code == 200:
-                result = response.json()
-                llm_output = result['choices']['message']['content']
-                print("LLM call successful.")
-                return llm_output
-            
-            # Handle non-200 errors (rate limits, bad request, etc.)
-            print(f"API Error (Status {response.status_code}): {response.text}")
+                try:
+                    result = response.json()
+                    if 'choices' in result and len(result['choices']) > 0:
+                        llm_output = result['choices']['message']['content']
+                        print(f"LLM call successful with {MODEL_NAME}.")
+                        return llm_output
+                    else:
+                        print(f"Invalid response structure from {MODEL_NAME}: {result}")
+                        print("Response details:", response.text[:300])
+                        return None
+                except (KeyError, IndexError, json.JSONDecodeError) as e:
+                    print(f"Error parsing API response from {MODEL_NAME}: {e}")
+                    print(f"Response: {response.text[:200]}...")
+                    return None
+            try:
+                error_data = response.json()
+            except json.JSONDecodeError:
+                error_data = {}
+            status_code = response.status_code
+            error_msg = error_data.get('error', {}).get('message', f'HTTP {status_code}')
+            if status_code == 429:
+                rate_limit_attempts += 1
+                print(f"Rate limit hit for {MODEL_NAME} (attempt {rate_limit_attempts}/{MAX_RATE_LIMIT_ATTEMPTS})")
+                print(f"Error: {error_msg}")
+                if rate_limit_attempts >= MAX_RATE_LIMIT_ATTEMPTS:
+                    print(f"Maximum rate limit attempts ({MAX_RATE_LIMIT_ATTEMPTS}) exceeded for {MODEL_NAME}.")
+                    print("This file will be skipped. Try running again later when rate limits reset.")
+                    return None
+                delay = RATE_LIMIT_DELAY * rate_limit_attempts
+                print(f"Waiting {delay} seconds due to rate limiting...")
+                time.sleep(delay)
+                attempt += 1
+                continue
+            elif status_code in [502, 503]:  # Service unavailable / Bad gateway
+                print(f"Service temporarily unavailable (Status {status_code}) for {MODEL_NAME}.")
+                attempt += 1
+                if attempt < MAX_RETRIES:
+                    delay = 2 ** attempt * 10  # Longer exponential backoff for service issues
+                    print(f"Retrying in {delay}s...")
+                    time.sleep(delay)
+                continue
+            elif status_code == 401:
+                print(f"API key issue for {MODEL_NAME}: {error_msg}")
+                print("Check your OPENROUTER_API_KEY in GitHub secrets.")
+                return None
+            else:
+                print(f"API Error (Status {status_code}) with {MODEL_NAME}: {error_msg}")
+                print(f"Response details: {response.text[:200]}...")
+                attempt += 1
+                if attempt < MAX_RETRIES:
+                    delay = 2 ** attempt + (time.time() % 1)
+                    print(f"Retrying in {delay:.2f}s...")
+                    time.sleep(delay)
+        except requests.exceptions.Timeout:
+            print(f"Request timeout for {MODEL_NAME} (90s). Retrying...")
             attempt += 1
             if attempt < MAX_RETRIES:
-                delay = 2 ** attempt + (time.time() % 1)
-                print(f"Retrying in {delay:.2f}s...")
+                delay = 2 ** attempt * 10
+                print(f"Retrying in {delay}s...")
                 time.sleep(delay)
-            
         except requests.exceptions.RequestException as e:
-            print(f"Request failed: {e}")
+            print(f"Network error for {MODEL_NAME}: {e}")
             attempt += 1
             if attempt < MAX_RETRIES:
                 delay = 2 ** attempt + (time.time() % 1)
                 print(f"Retrying in {delay:.2f}s...")
                 time.sleep(delay)
-    
-    print("Maximum retries exceeded. Skipping LLM formatting for this file.")
+    print(f"All {MAX_RETRIES} attempts failed for {MODEL_NAME}. Skipping LLM formatting for this file.")
     return None
 
-
-
-# --- Main Logic ---
-
-
-
 def should_skip_path(root: str, file: str, filepath: str) -> bool:
-    """Determine if a file or directory should be skipped based on exclusion rules."""
     filename = os.path.basename(filepath)
-    
-    # Skip specific files like README.md (check by filename only)
     if filename in EXCLUDED_FILES:
         return True
-    
-    # Check if in excluded directory (including subpaths)
     root_parts = root.split(os.sep)
     if any(part in EXCLUDED_DIRS for part in root_parts):
         return True
-    
-    # Special check for TAGS folder (we process it differently, but don't skip)
     if TAGS_FOLDER in root_parts:
         return False
-    
     return False
 
-
-
 def process_markdown_files():
-    """Main function to iterate, compare hashes, and format files."""
     if not OPENROUTER_API_KEY:
         print("ERROR: OPENROUTER_API_KEY environment variable is not set.")
         sys.exit(1)
-
     old_hashes = load_hashes()
     new_hashes = {}
     files_processed = 0
-
-    # Walk through the repository to find all Markdown files
+    files_skipped_rate_limit = 0
     for root, dirs, files in os.walk(".", topdown=True):
-        # Modify dirs in-place to prune excluded directories
         dirs[:] = [d for d in dirs if d not in EXCLUDED_DIRS]
-        
-        # Additional skip for hidden directories (except .github where we store hashes)
         dirs[:] = [d for d in dirs if not (d.startswith('.') and d != '.github')]
-        
-        if should_skip_path(root, '', root):  # Skip the root if needed
+        if should_skip_path(root, '', root):
             continue
-            
         for file in files:
             if file.endswith(('.md', '.markdown')):
                 filepath = os.path.join(root, file)
-                
-                # Normalize path for consistent hashing across different OS/environments
                 norm_path = os.path.normpath(filepath)
-                
-                # Early exclusion check - catch README.md and excluded paths
                 if should_skip_path(root, file, filepath):
                     print(f"Skipping excluded file: {norm_path}")
-                    # Still track its hash to avoid unnecessary future checks
                     try:
                         current_hash = get_file_hash(filepath)
                         new_hashes[norm_path] = current_hash
                     except Exception as e:
                         print(f"Could not hash excluded file {norm_path}: {e}")
-                        pass  # If can't read excluded file, skip silently
                     continue
-                
-                # Check if file is completely empty - skip empty files
                 if is_file_empty(filepath):
                     print(f"Skipping empty file: {norm_path}")
-                    # Track empty hash for consistency
                     empty_hash = hashlib.sha256(b'').hexdigest()
                     new_hashes[norm_path] = empty_hash
                     continue
-                
-                current_content = None
                 try:
                     with open(filepath, 'r', encoding='utf-8') as f:
                         current_content = f.read()
                 except Exception as e:
                     print(f"Skipping {norm_path}: Could not read file content. Error: {e}")
                     continue
-
-                # Check for content changes using hash comparison
                 current_hash = get_file_hash(filepath)
                 old_hash = old_hashes.get(norm_path, "")
-                
                 if current_hash == old_hash:
-                    # File matches previous hash (already formatted or unchanged)
                     print(f"Skipping {norm_path}: Already formatted (hash match).")
                     new_hashes[norm_path] = current_hash
                     continue
-                
                 print(f"Processing {norm_path}: Hash changed or new file. Running formatting...")
-
-                # Determine if this is a TAGS file
                 is_tags_file = TAGS_FOLDER in root.split(os.sep)
-                
-                # Call LLM for formatting with appropriate prompt
                 llm_output = call_openrouter_api(current_content, is_tags_file)
-                
                 if llm_output is None:
-                    # If LLM failed, retain the original and update hash to current
+                    print(f"⚠️  Failed to format {norm_path} due to API issues - retaining original content.")
                     new_hashes[norm_path] = current_hash
+                    files_skipped_rate_limit += 1
                     continue
-                
-                # Check for actual changes and write back
                 llm_output_hash = hashlib.sha256(llm_output.encode('utf-8')).hexdigest()
-                
                 if llm_output_hash != current_hash:
-                    # Changes made, write the new content
                     with open(filepath, 'w', encoding='utf-8') as f:
                         f.write(llm_output)
                     print(f"✅ Successfully formatted and updated: {norm_path}")
                     new_hashes[norm_path] = llm_output_hash
                     files_processed += 1
                 else:
-                    # No changes needed
                     print(f"ℹ️  No changes made by LLM: {norm_path}")
                     new_hashes[norm_path] = current_hash
-    
-    # Save the updated hash list
     save_hashes(new_hashes)
-    print(f"\nCompleted processing. {files_processed} files were modified by the LLM.")
-
+    print(f"\n{'='*60}")
+    print(f"PROCESSING SUMMARY:")
+    print(f"✅ Files successfully formatted: {files_processed}")
+    print(f"⚠️  Files skipped due to API limits or errors: {files_skipped_rate_limit}")
+    print(f"{'='*60}")
+    print(f"Hash file updated. Next run will skip successfully processed files.")
 
 if __name__ == "__main__":
     process_markdown_files()
