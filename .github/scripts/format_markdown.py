@@ -12,7 +12,7 @@ from typing import Dict, Optional
 OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY")
 API_URL = "https://openrouter.ai/api/v1/chat/completions"
 # Using DeepSeek Coder for reliable instruction following and output formatting
-MODEL_NAME = "deepseek/deepseek-coder"
+MODEL_NAME = "qwen/qwen3-coder:free"
 HASH_FILE_PATH = ".github/file_hashes.json"
 MAX_RETRIES = 5
 
