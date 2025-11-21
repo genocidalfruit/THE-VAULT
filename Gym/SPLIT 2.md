@@ -1,12 +1,12 @@
-Tags : [[Gym]]
+Tags: [[Gym]]
 
 > PPL x ARNOLD
 
-Forearm exercsies everyday
-Legs+shoulders and Legs+Core
-Strength and Hypertrophy focused days
+Forearm exercises everyday  
+Legs+shoulders and Legs+Core  
+Strength and Hypertrophy focused days  
 
-## Day 1 – Push (Chest + Triceps + Forearms)
+## 💪 Day 1 – Push (Chest + Triceps + Forearms)
 
 - Flat barbell bench press — 4×4–6
 - Flat DB bench press — 3×6–10
@@ -17,7 +17,7 @@ Strength and Hypertrophy focused days
 - Overhead DB or cable triceps extension — 2–3×10–12
 - Forearms: farmer’s carry or wrist curls — 2×20–30 s or 2×12–20
 
-## Day 2 – Pull (Back + Biceps + Forearms)
+## 🧠 Day 2 – Pull (Back + Biceps + Forearms)
 
 - Weighted pull-up or lat pulldown — 4×4–6
 - Barbell or chest-supported row — 4×4–6
@@ -28,7 +28,7 @@ Strength and Hypertrophy focused days
 - Face pull or rear-delt row — 3×12–15
 - Forearms: dead hang or hammer curl hold — 2×20–30 s
 
-## Day 3 – Legs + Shoulders + Forearms (Mixed Strength/Hypertrophy)
+## 🦵 Day 3 – Legs + Shoulders + Forearms (Mixed Strength/Hypertrophy)
 
 _Legs_
 - Back or front squat — 4×4–6
@@ -45,7 +45,7 @@ _Shoulders_
 _Forearms_
 - Reverse curls — 2×10–15
 
-## Day 4 – Chest (Incline) + Back + Forearms
+## 💨 Day 4 – Chest (Incline) + Back + Forearms
 
 _Chest (Incline-focused)_
 - Incline barbell bench press — 4×6–8
@@ -60,7 +60,7 @@ _Back_
 _Forearms_
 - Barbell static hold or wrist roller — 2–3×20–30 s or trips
 
-## Day 5 – Shoulders + Arms + Forearms
+## 🔥 Day 5 – Shoulders + Arms + Forearms
 
 _Shoulders_
 - Arnold press or machine shoulder press — 3×8–12
@@ -76,7 +76,7 @@ _Arms_
 _Forearms_
 - Plate pinches or gripper — 2×max hold
 
-## Day 6 – Legs (Strength-biased) + Core + Forearms
+## ⚡ Day 6 – Legs (Strength-biased) + Core + Forearms
 
 _Legs_
 - Deadlift or safety-bar/front squat — 5×3 (heavy)
