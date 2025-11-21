@@ -22,6 +22,7 @@ TAGS_FOLDER = 'TAGS'
 
 # --- LLM System Instructions ---
 STANDARD_SYSTEM_PROMPT = """You are a highly specialized Markdown formatter for Obsidian notes. Perform exactly two tasks on the provided content:
+
 1. **Standardize Formatting**: Clean up the Markdown by:
    - Removing trailing whitespace from all lines
    - Ensuring consistent indentation (use 2 spaces for nested lists and code blocks)
@@ -41,6 +42,7 @@ CRITICAL RULES:
 """
 
 TAGS_SYSTEM_PROMPT = """You are a specialized editor for Obsidian tag description files. Perform these exact tasks on the provided Markdown content:
+
 1. **Add Emojis to Headings**: ONLY modify H1 (#), H2 (##), and H3 (###) headings by prepending ONE relevant, professional emoji directly before the heading text. Choose emojis that represent the tag's theme or purpose.
 2. **Add Brief Descriptions**: AFTER each H1, H2, or H3 heading (but before any existing content under it), add exactly ONE new paragraph providing a brief, 1-2 sentence description of what the heading represents.
 
@@ -121,7 +123,7 @@ def call_openrouter_api(content: str, is_tags_file: bool = False) -> Optional[st
                 try:
                     result = response.json()
                     if 'choices' in result and len(result['choices']) > 0:
-                        llm_output = result['choices']['message']['content']
+                        llm_output = result['choices'][0]['message']['content']  # Fixed: added [0]
                         print(f"LLM call successful with {MODEL_NAME}.")
                         return llm_output
                     else:
@@ -151,11 +153,11 @@ def call_openrouter_api(content: str, is_tags_file: bool = False) -> Optional[st
                 time.sleep(delay)
                 attempt += 1
                 continue
-            elif status_code in [502, 503]:  # Service unavailable / Bad gateway
+            elif status_code in [500, 502, 503, 504]:  # Fixed: added list of status codes
                 print(f"Service temporarily unavailable (Status {status_code}) for {MODEL_NAME}.")
                 attempt += 1
                 if attempt < MAX_RETRIES:
-                    delay = 2 ** attempt * 10  # Longer exponential backoff for service issues
+                    delay = 2 ** attempt * 10
                     print(f"Retrying in {delay}s...")
                     time.sleep(delay)
                 continue
