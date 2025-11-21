@@ -1,0 +1,78 @@
+name: Daily Markdown Formatter
+
+on:
+  schedule:
+    - cron: "30 21 * * *" # 3:00 AM IST (9:30 PM UTC)
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  format-markdown:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install requests
+      - name: Create hash storage directory
+        run: |
+          mkdir -p .github
+      - name: Format markdown files using hash comparison
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: |
+          echo "🚀 Starting markdown formatting..."
+          python .github/scripts/format_markdown.py
+      - name: Check for changes after formatting
+        id: git-changes
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "changes=true" >> $GITHUB_OUTPUT
+            echo "📝 Changes detected after formatting"
+            git status --short
+          else
+            echo "changes=false" >> $GITHUB_OUTPUT
+            echo "✅ No changes after formatting"
+          fi
+      - name: Commit and push changes
+        if: steps.git-changes.outputs.changes == 'true'
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          # Add all changes including the hash file
+          git add .
+          
+          # Count modified files (excluding the hash file)
+          MODIFIED_FILES=$(git diff --cached --name-only | grep -E '\.(md|markdown)$' | wc -l)
+          
+          git commit -m "🤖 Auto-format markdown files with DeepSeek R1
+          - Improved formatting and readability using hash-based detection
+          - Enhanced visual elements with emojis and consistent structure
+          - Maintained all original content and links
+          - Updated file hash tracking for future runs
+          
+          Files processed: ${MODIFIED_FILES} markdown files"
+          
+          git push
+      - name: Summary
+        run: |
+          if [ "${{ steps.git-changes.outputs.changes }}" == "true" ]; then
+            echo "✅ Markdown files have been formatted and committed!"
+          else
+            echo "ℹ️  All markdown files are already properly formatted based on hash comparison."
+          fi
