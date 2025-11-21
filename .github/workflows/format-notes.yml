@@ -34,11 +34,10 @@ steps:
   
   # --- Step 2: LLM Emoji Formatting ---
   - name: Run LLM Emoji Heading Formatting
-    # --- PATH UPDATED HERE ---
-    run: node .github/scripts/llm-formatter.js
+    # Execute the script from the correct path
+    run: node .github/scripts/emoji_formatter.js
     env:
       # This environment variable provides the API key to the script.
-      # YOU MUST define GEMINI_API_KEY as a repository secret in GitHub Settings -> Secrets.
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
   # --- Step 3: Commit Changes ---
@@ -52,12 +51,11 @@ steps:
       
       # Check for changes in the staging area and commit only if files were added/modified
       if git diff --exit-code --quiet; then
-        echo "No formatting changes found. Exiting."
+        echo "No formatting or emoji changes found. Exiting."
       else
-        echo "Formatting changes found. Committing..."
+        echo "Formatting and emoji changes found. Committing..."
         git add .
-        git commit -m "Auto-Format: Cleaned up and added emojis to notes"
+        git commit -m "🤖 Auto-Format: Cleaned up and added emojis to notes"
         
         # Use the token provided by GitHub Actions to push the commit
         git push
-      fi
