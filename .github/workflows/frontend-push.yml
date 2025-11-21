@@ -1,0 +1,56 @@
+name: Push to VAULT-front
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  push-to-vault-front:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source repo
+        uses: actions/checkout@v4
+        with:
+          path: source
+
+      - name: Checkout destination repo
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/VAULT-front
+          token: ${{ secrets.VAULT_FRONT_PAT }}
+          path: destination
+
+      - name: Clear and copy content
+        run: |
+          # Remove existing content in destination path (if any)
+          rm -rf destination/src/content/posts/*
+          
+          # Create destination directory if it doesn't exist
+          mkdir -p destination/src/content/posts
+          
+          # Copy all files from source to destination
+          rsync -av \
+            --exclude='.*' \
+            --exclude='Rough Notes' \
+            --exclude='RESOURCES' \
+            --exclude='TAGS' \
+            --exclude='README.md' \
+            source/ destination/src/content/posts/
+
+      - name: Commit and push changes
+        run: |
+          cd destination
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          git add -A
+          
+          # Only commit if there are changes
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Sync content from ${{ github.repository }}"
+            git push
+          fi

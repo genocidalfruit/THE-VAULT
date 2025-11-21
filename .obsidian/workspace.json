@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "857575a8c7afc492",
+        "id": "8a7c7f7363bac1a5",
         "type": "tabs",
         "children": [
           {
-            "id": "e4d69128bd470316",
+            "id": "08b9d1738146499d",
             "type": "leaf",
             "state": {
               "type": "empty",
@@ -153,6 +153,7 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "bases:Create new base": false,
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
@@ -161,8 +162,9 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "e4d69128bd470316",
+  "active": "08b9d1738146499d",
   "lastOpenFiles": [
+    "Gym/SPLIT 2.md",
     "TAGS/Gym.md",
     "TAGS/Tech.md",
     "Finance/BUDGETING 1.md",
