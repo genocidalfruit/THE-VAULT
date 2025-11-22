@@ -8,7 +8,9 @@ from typing import Dict, Optional
 
 # --- Configuration ---
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
-API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
+# Using Gemini 2.5 Flash - stable, free, and high performance
+MODEL_NAME = "gemini-2.5-flash"
+API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL_NAME}:generateContent"
 HASH_FILE_PATH = ".github/file_hashes.json"
 MAX_RETRIES = 5
 RATE_LIMIT_DELAY = 60
@@ -153,6 +155,7 @@ def call_gemini_api(content: str, is_tags_file: bool = False) -> Optional[str]:
         return None
     
     # Gemini API uses query parameter for API key
+    # Format: https://generativelanguage.googleapis.com/v1beta/models/MODEL_NAME:generateContent?key=API_KEY
     url = f"{API_URL}?key={GEMINI_API_KEY}"
     
     headers = {
