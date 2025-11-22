@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "8a7c7f7363bac1a5",
+        "id": "f3b8cc7ed7909f30",
         "type": "tabs",
         "children": [
           {
-            "id": "08b9d1738146499d",
+            "id": "93e4355c565fecd9",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "Gym/GLUTE WORKOUTS 1.md",
+                "mode": "preview",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "GLUTE WORKOUTS 1"
             }
           }
         ]
@@ -153,7 +157,6 @@
   },
   "left-ribbon": {
     "hiddenItems": {
-      "bases:Create new base": false,
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
@@ -162,16 +165,17 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "08b9d1738146499d",
+  "active": "93e4355c565fecd9",
   "lastOpenFiles": [
     "Gym/SPLIT 2.md",
     "TAGS/Gym.md",
+    "Gym/GLUTE WORKOUTS 1.md",
+    "Gym/FOREARM WORKOUTS 1.md",
+    "LLM/RAG 1.md",
     "TAGS/Tech.md",
     "Finance/BUDGETING 1.md",
-    "Gym/FOREARM WORKOUTS 1.md",
     "Gym/PPL SPLIT 1.md",
     "LLM/FINE TUNING 1.md",
-    "LLM/RAG 1.md",
     "Rough Notes/SAMPLE.md",
     "Automation/OBSIDIAN AUTOMATION TODO.md",
     "Automation/OBSIDIAN AUTOMATION PLAN.canvas",
