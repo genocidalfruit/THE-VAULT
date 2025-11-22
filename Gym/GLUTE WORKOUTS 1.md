@@ -1,3 +1,5 @@
+Tags : [[Gym]]
+
 # 💪 Exercises
 
 ## 🦵 Deficit Reverse Lunge
