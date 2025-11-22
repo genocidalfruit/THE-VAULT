@@ -1,32 +1,33 @@
-Tags: [[Gym]]
-
 # 💪 Forearm Exercises
 
-🔗 Link: <https://youtube.com/shorts/OG131ahIxEs?si=eiR3hhaRlGidA30W>  
+🔗 Link: <https://youtube.com/shorts/OG131ahIxEs?si=eiR3hhaRlGidA30W>
 
 ---
 
-## 🦾 Extensor Muscles  
-These muscles control wrist extension and finger extension. Strengthening them improves grip strength and overall forearm function.  
+## 🦾 Extensor Muscles
 
-- Reverse cable curl  
-  *Targets: Radial and ulnar extensors*  
+These muscles control wrist extension and finger extension. Strengthening them improves grip strength and overall forearm function.
 
----
-
-## 🤲 Flexor Muscles  
-These muscles handle wrist flexion and finger flexion. Training them enhances grip endurance and hand strength.  
-
-- First knuckle pushups  
-  *Targets: Long and flexor digitorum muscles*  
+- Reverse cable curl
+  *Targets: Radial and ulnar extensors*
 
 ---
 
-## 💥 Brachioradialis  
-This key forearm muscle runs along the outer arm. Strengthening it improves supination strength and overall grip.  
+## 🤲 Flexor Muscles
 
-- Reverse grip curls  
-  *Targets: Brachioradialis and brachialis*  
+These muscles handle wrist flexion and finger flexion. Training them enhances grip endurance and hand strength.
 
-[[Forearm Anatomy]] [[Grip Training]]  
+- First knuckle pushups
+  *Targets: Long and flexor digitorum muscles*
+
+---
+
+## 💥 Brachioradialis
+
+This key forearm muscle runs along the outer arm. Strengthening it improves supination strength and overall grip.
+
+- Reverse grip curls
+  *Targets: Brachioradialis and brachialis*
+
+[[Forearm Anatomy]] [[Grip Training]]
 *Focus areas: Wrist extensors, finger flexors, and brachioradialis development for functional strength*
