@@ -9,7 +9,7 @@ from typing import Dict, Optional
 # --- Configuration ---
 OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY")
 API_URL = "https://openrouter.ai/api/v1/chat/completions"
-MODEL_NAME = "qwen/qwen3-coder:free"
+MODEL_NAME = "deepseek/deepseek-chat-v3-0324:free"
 HASH_FILE_PATH = ".github/file_hashes.json"
 MAX_RETRIES = 5
 RATE_LIMIT_DELAY = 60
