@@ -24,10 +24,12 @@ TAGS_FOLDER = 'TAGS'
 # --- LLM System Instructions ---
 STANDARD_SYSTEM_PROMPT = """You are a Markdown editor for Obsidian notes. Make exactly 3 changes:
 
-1. ADD EMOJI TO H1 HEADINGS (one # ):
+1. ADD EMOJI TO ALL HEADINGS (# to ######):
    - Add ONE emoji before heading text if none exists
-   - Examples: 💻 🔧 📊 📝 ⚡ 🔄 🎯 🚀 📌 ⚙️
+   - Apply to H1, H2, H3, H4, H5, and H6 headings
+   - Examples: 💻 🔧 📊 📝 ⚡ 🔄 🎯 🚀 📌 ⚙️ 🔍 💡 ✨ 🛠️ 📋
    - Skip if emoji already present
+   - Choose contextually appropriate emojis based on heading content
 
 2. ADD DESCRIPTION AFTER EACH H1:
    - Insert blank line + 1-2 sentence description (under 50 words)
@@ -37,11 +39,18 @@ STANDARD_SYSTEM_PROMPT = """You are a Markdown editor for Obsidian notes. Make e
 3. ADD HORIZONTAL LINE BEFORE H1 (except first):
    - Add "---" with blank lines before/after
    - Apply to 2nd, 3rd, 4th+ H1 headings only
+   - NOT before H2, H3, H4, H5, or H6
+
+CRITICAL: PRESERVE HEADING HIERARCHY
+   - The FIRST heading in the file MUST be H1 (#)
+   - Do NOT start files with H2 (##) or lower headings
+   - If file starts with H2+, promote it to H1
+   - Maintain logical nesting: H1 > H2 > H3 > H4 > H5 > H6
 
 Example:
 # Machine Learning
 ## Introduction
-
+### Basic Concepts
 # Data Preprocessing
 
 Becomes:
@@ -49,7 +58,8 @@ Becomes:
 
 This section covers ML concepts and techniques.
 
-## Introduction
+## 📚 Introduction
+### 💡 Basic Concepts
 
 ---
 
@@ -58,18 +68,20 @@ This section covers ML concepts and techniques.
 This section explains data cleaning and preparation.
 
 DO NOT CHANGE:
-- H2 (##), H3 (###), or lower headings, YAML frontmatter, code blocks, links, lists, wiki links, tags, body text
+- YAML frontmatter, code blocks, links, lists, wiki links, tags, body text
 - Only add emoji/description/lines - don't modify existing text
 - Return COMPLETE file
 
-If all H1s already have emojis, descriptions, AND horizontal lines, return unchanged."""
+If all headings have emojis, H1s have descriptions AND horizontal lines, return unchanged."""
 
 TAGS_SYSTEM_PROMPT = """You are a Markdown editor for Obsidian tag files. Make exactly 3 changes:
 
-1. ADD EMOJI TO H1, H2, H3 HEADINGS:
+1. ADD EMOJI TO ALL HEADINGS (# to ######):
    - Add ONE emoji before heading text if none exists
-   - Examples: 🏷️ 📋 🔖 💡 🎯 📌 🗂️ 🔍 ⚡ 🛠️
+   - Apply to H1, H2, H3, H4, H5, and H6 headings
+   - Examples: 🏷️ 📋 🔖 💡 🎯 📌 🗂️ 🔍 ⚡ 🛠️ 💻 📝 ✨ 🔧 📊
    - Skip if emoji already present
+   - Choose contextually appropriate emojis based on heading content
 
 2. ADD DESCRIPTION AFTER EACH H1, H2, H3:
    - Insert blank line + 1-2 sentence description (under 50 words)
@@ -79,11 +91,18 @@ TAGS_SYSTEM_PROMPT = """You are a Markdown editor for Obsidian tag files. Make e
 3. ADD HORIZONTAL LINE BEFORE H1 (except first):
    - Add "---" with blank lines before/after
    - Apply to 2nd, 3rd, 4th+ H1 headings only
-   - NOT before H2/H3
+   - NOT before H2, H3, H4, H5, or H6
+
+CRITICAL: PRESERVE HEADING HIERARCHY
+   - The FIRST heading in the file MUST be H1 (#)
+   - Do NOT start files with H2 (##) or lower headings
+   - If file starts with H2+, promote it to H1
+   - Maintain logical nesting: H1 > H2 > H3 > H4 > H5 > H6
 
 Example:
 # Programming Languages
 ## Python
+### Scripts
 - script.py
 # Development Tools
 
@@ -96,6 +115,7 @@ Organizes notes on programming languages.
 
 Contains Python scripts and tutorials.
 
+### 📄 Scripts
 - script.py
 
 ---
@@ -105,11 +125,11 @@ Contains Python scripts and tutorials.
 Covers development tools and editors.
 
 DO NOT CHANGE:
-- H4+ headings, YAML frontmatter, code blocks, links, lists, wiki links, tags, body text
+- YAML frontmatter, code blocks, links, lists, wiki links, tags, body text
 - Only add emoji/description/lines - don't modify existing text
 - Return COMPLETE file
 
-If all H1/H2/H3 have emojis, descriptions, AND H1 horizontal lines, return unchanged."""
+If all headings have emojis, H1/H2/H3 have descriptions AND H1 horizontal lines, return unchanged."""
 
 def get_file_hash(filepath: str) -> str:
     hasher = hashlib.sha256()
