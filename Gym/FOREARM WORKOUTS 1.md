@@ -28,6 +28,3 @@ This key forearm muscle runs along the outer arm. Strengthening it improves supi
 
 - Reverse grip curls
   *Targets: Brachioradialis and brachialis*
-
-[[Forearm Anatomy]] [[Grip Training]]
-*Focus areas: Wrist extensors, finger flexors, and brachioradialis development for functional strength*
