@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "90dadb44e4b390c9",
+        "id": "5bd68c79897cd4f5",
         "type": "tabs",
         "children": [
           {
-            "id": "12aff12b443e5d3f",
+            "id": "be16f755af9401ff",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Gym/SPLIT 2.md",
+                "file": "TAGS/Learning.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "SPLIT 2"
+              "title": "Learning"
             }
           }
         ]
@@ -166,10 +166,12 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "12aff12b443e5d3f",
+  "active": "be16f755af9401ff",
   "lastOpenFiles": [
-    "Gym/PPL SPLIT 1.md",
+    "Learning/COMPENDIUMS 1.md",
+    "TAGS/Learning.md",
     "Gym/GLUTE WORKOUTS 1.md",
+    "Gym/PPL SPLIT 1.md",
     "Gym/SPLIT 2.md",
     "TAGS/Gym.md",
     "TAGS/Tech.md",
