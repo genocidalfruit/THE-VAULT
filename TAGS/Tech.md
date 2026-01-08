@@ -1,4 +1,8 @@
 # 🤖 LLMs  
-Large Language Models power modern AI text generation and understanding capabilities.  
+Notes about LLMs, LLM functions and LLM based operations.  
 
 - [[RAG 1]]
+
+# Coding Problems
+
+- [[BINARY SEARCH 1]]

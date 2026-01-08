@@ -1,3 +1,0 @@
-- Setup auto sync
-- Blog page integration
-- Todo list integration (Notion?)
