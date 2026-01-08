@@ -1,7 +1,16 @@
-Tags : [[Tech]]
+```python
+import re
 
-# Search for element that appears once in a sorted array
-- Indexing without the additional element means the number of items in list is even
-- If the item is on the left side - Indexing will be skewed right (array elements in mid and mid-1 will be the same)
-- If item is on the right side - Indexing in the middle will remain the same
-Perform binary search for the side the item is on based on the above conditions and return `nums[low]` at the end of the while loop (`while low<high`)
+def get_contextual_emoji(heading_text):
+    """Chooses a contextually appropriate emoji based on heading content."""
+    text_lower = heading_text.lower()
+    if "search" in text_lower or "find" in text_lower or "locate" in text_lower: return "🔍"
+    if "element" in text_lower or "item" in text_lower or "value" in text_lower: return "⚛️"
+    if "array" in text_lower or "list" in text_lower or "collection" in text_lower: return "🔢"
+    if "sorted" in text_lower or "order" in text_lower or "sequence" in text_lower: return "⬆️"
+    if "binary search" in text_lower: return "🔎"
+    if "indexing" in text_lower or "index" in text_lower or "position" in text_lower: return "📊"
+    if "concepts" in text_lower or "basics" in text_lower or "fundamentals" in text_lower: return "💡"
+    if "introduction" in text_lower or "overview" in text_lower or "start" in text_lower: return "📚"
+    if "data" in text_lower or "information" in text_lower: return "📊"
+    if "preprocessing" in text_lower or "preparation" in text_lower or "clean"
