@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "a4ce05ff26a1746a",
+        "id": "a91ee05adacda72b",
         "type": "tabs",
         "children": [
           {
-            "id": "ee9eb3a0663cd7bd",
+            "id": "4bf751c18c46733b",
             "type": "leaf",
             "state": {
               "type": "empty",
@@ -163,14 +163,18 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "63ac10a6b70a7632",
+  "active": "4bf751c18c46733b",
   "lastOpenFiles": [
-    "Coding",
-    "TAGS/Tech.md",
-    "TAGS/Learning.md",
     "TAGS/Finance.md",
     "TAGS/Gym.md",
+    "TAGS/Learning.md",
+    "TAGS/Tech.md",
+    "LLM/FINE TUNING 1.md",
+    "Markets/OPTIONS 1.md",
+    "Untitled.base",
     "Coding/BINARY SEARCH 1.md",
+    "Markets",
+    "Coding",
     "Money Management/PERSONAL FINANCE 1.md",
     "Learning/COMPENDIUMS 1.md",
     "Gym/GLUTE WORKOUTS 1.md",
@@ -179,7 +183,6 @@
     "Gym/FOREARM WORKOUTS 1.md",
     "LLM/RAG 1.md",
     "Finance/BUDGETING 1.md",
-    "LLM/FINE TUNING 1.md",
     "Rough Notes/SAMPLE.md",
     "Automation/OBSIDIAN AUTOMATION TODO.md",
     "Automation/OBSIDIAN AUTOMATION PLAN.canvas",
