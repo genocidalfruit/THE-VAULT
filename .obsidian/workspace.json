@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "6d7f784df816f705",
+        "id": "59bc9edf9dbf905e",
         "type": "tabs",
         "children": [
           {
-            "id": "7e9f1c1229fe56bf",
+            "id": "9287abf15c2eaeae",
             "type": "leaf",
             "state": {
               "type": "empty",
@@ -163,7 +163,7 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "7e9f1c1229fe56bf",
+  "active": "9287abf15c2eaeae",
   "lastOpenFiles": [
     "TAGS/Finance.md",
     "TAGS/Learning.md",
