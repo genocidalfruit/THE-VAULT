@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "a91ee05adacda72b",
+        "id": "6d7f784df816f705",
         "type": "tabs",
         "children": [
           {
-            "id": "4bf751c18c46733b",
+            "id": "7e9f1c1229fe56bf",
             "type": "leaf",
             "state": {
               "type": "empty",
@@ -163,19 +163,19 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "4bf751c18c46733b",
+  "active": "7e9f1c1229fe56bf",
   "lastOpenFiles": [
     "TAGS/Finance.md",
-    "TAGS/Gym.md",
     "TAGS/Learning.md",
     "TAGS/Tech.md",
-    "LLM/FINE TUNING 1.md",
+    "TAGS/Gym.md",
     "Markets/OPTIONS 1.md",
+    "Money Management/PERSONAL FINANCE 1.md",
+    "LLM/FINE TUNING 1.md",
     "Untitled.base",
     "Coding/BINARY SEARCH 1.md",
     "Markets",
     "Coding",
-    "Money Management/PERSONAL FINANCE 1.md",
     "Learning/COMPENDIUMS 1.md",
     "Gym/GLUTE WORKOUTS 1.md",
     "Gym/PPL SPLIT 1.md",
