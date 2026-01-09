@@ -173,18 +173,12 @@ def call_gemini_api(content: str, is_tags_file: bool = False) -> Optional[str]:
     if not GEMINI_API_KEY:
         print("ERROR: GEMINI_API_KEY not set.")
         return None
-    
-    # Gemini API uses query parameter for API key
-    # Format: https://generativelanguage.googleapis.com/v1beta/models/MODEL_NAME:generateContent?key=API_KEY
+
     url = f"{API_URL}?key={GEMINI_API_KEY}"
-    
-    headers = {
-        "Content-Type": "application/json",
-    }
-    
+    headers = {"Content-Type": "application/json"}
+
     system_prompt = TAGS_SYSTEM_PROMPT if is_tags_file else STANDARD_SYSTEM_PROMPT
-    
-    # Gemini API request format
+
     payload = {
         "contents": [
             {
@@ -198,21 +192,34 @@ def call_gemini_api(content: str, is_tags_file: bool = False) -> Optional[str]:
             "maxOutputTokens": 8192,
         }
     }
-    
+
     rate_limit_attempts = 0
     attempt = 0
-    
+
     while attempt < MAX_RETRIES:
         try:
             print(f"Attempt {attempt + 1}: Sending file to Gemini API...")
             response = requests.post(url, headers=headers, json=payload, timeout=90)
-            
+
             if response.status_code == 200:
                 try:
                     result = response.json()
                     if 'candidates' in result and len(result['candidates']) > 0:
                         llm_output = result['candidates'][0]['content']['parts'][0]['text']
-                        print(f"Gemini API call successful.")
+                        # --- strip ```markdown / ``` fences if present ---
+                        stripped = llm_output.strip()
+                        if stripped.startswith("```"):
+                            first_newline = stripped.find("\n")
+                            if first_newline != -1:
+                                opening = stripped[:first_newline].strip()
+                                # opening is ``` or ```markdown or ```md, etc.
+                                if opening.startswith("```"):
+                                    inner = stripped[first_newline + 1 :]
+                                    closing_idx = inner.rfind("```")
+                                    if closing_idx != -1:
+                                        inner = inner[:closing_idx]
+                                    llm_output = inner.lstrip("\n").rstrip()
+                        print("Gemini API call successful.")
                         return llm_output
                     else:
                         print(f"Invalid response structure from Gemini API: {result}")
