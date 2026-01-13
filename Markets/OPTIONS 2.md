@@ -11,6 +11,6 @@ In any case I get paid a certain price for the option
 ==SELLING PUT OPTION==
 Buy a stock + Sell the call option
 - Betting on the market not going above the strike price of the option - Market goes goes above strike price i have to sell my shares at strike price thus making potentially less money
-There is no way to lose money in a covered call (there might be a lost potential for gain if the stock price shoots above the strike price)
+The call option sold is basically some insurance against the stock. There might be potential losses even if there is a gain. In the case of a stock value dropping significantly, the option holder (buyer of option) might not use the option so you are making a loss, but you will make less of a loss because you sold that option.
 
 ==Both of these involve selling your option to another party and being obligated to sell/buy your shares to them after a certain period (before option expiration date), at the agreed upon price (strike price)==

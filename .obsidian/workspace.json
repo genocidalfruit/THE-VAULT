@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "250045f35522cedd",
+        "id": "1a73eba4f59144ae",
         "type": "tabs",
         "children": [
           {
-            "id": "96f0c32958aa5a59",
+            "id": "fa3418650a8bc636",
             "type": "leaf",
             "state": {
               "type": "empty",
@@ -163,7 +163,7 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "63ac10a6b70a7632",
+  "active": "fa3418650a8bc636",
   "lastOpenFiles": [
     "Markets/OPTIONS 2.md",
     "TAGS/Finance.md",
