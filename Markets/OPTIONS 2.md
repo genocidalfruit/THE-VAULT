@@ -1,13 +1,22 @@
 Tags : [[Finance]]
 
-# Cash Secured Puts
+# 💰 Cash Secured Puts
+
+This section explains the strategy of selling cash-secured put options, detailing how it works and its associated risks and rewards.
+
 ==SELLING CALL OPTION==
 Selling a put option to make the agreement - If the stock goes lower than value A then I buy the stock at the value A, else I don't buy any stock at all
 In any case I get paid a certain price for the option
 - Betting on the market not going down below value A - Market goes down -> I make a loss on each share as I am obligated to buy the shares at a higher price
 - Profit is still possible if the market price goes down if the cash secured is higher than the loss made on the stock
 - "Sell to Open" on brokerage platforms
-# Covered Calls
+
+---
+
+# 🛡️ Covered Calls
+
+This section outlines the covered call strategy, where you sell call options against shares you already own to generate income.
+
 ==SELLING PUT OPTION==
 Buy a stock + Sell the call option
 - Betting on the market not going above the strike price of the option - Market goes goes above strike price i have to sell my shares at strike price thus making potentially less money
