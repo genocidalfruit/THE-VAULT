@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "59bc9edf9dbf905e",
+        "id": "250045f35522cedd",
         "type": "tabs",
         "children": [
           {
-            "id": "9287abf15c2eaeae",
+            "id": "96f0c32958aa5a59",
             "type": "leaf",
             "state": {
               "type": "empty",
@@ -163,13 +163,14 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "9287abf15c2eaeae",
+  "active": "63ac10a6b70a7632",
   "lastOpenFiles": [
+    "Markets/OPTIONS 2.md",
     "TAGS/Finance.md",
+    "Markets/OPTIONS 1.md",
     "TAGS/Learning.md",
     "TAGS/Tech.md",
     "TAGS/Gym.md",
-    "Markets/OPTIONS 1.md",
     "Money Management/PERSONAL FINANCE 1.md",
     "LLM/FINE TUNING 1.md",
     "Untitled.base",

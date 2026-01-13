@@ -11,3 +11,4 @@ This section organizes notes related to personal financial management, budgeting
 This section covers various aspects of financial markets, investment strategies, and trading activities.
 
 - [[OPTIONS 1]]
+- [[OPTIONS 2]]
