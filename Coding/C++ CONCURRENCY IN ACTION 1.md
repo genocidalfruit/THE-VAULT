@@ -1,6 +1,8 @@
 Tags : [[Tech]], [[Books]]
 
-# Using Threads in C++
+# 🧵 Using Threads in C++
+
+This section explores the fundamentals of using threads in C++ for concurrent programming, including basic initialization and execution.
 
 `#include <iostream>`
 `#include <thread>`
