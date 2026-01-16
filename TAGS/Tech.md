@@ -6,8 +6,5 @@ Notes about LLMs, LLM functions and LLM based operations.
 
 ---
 
-# 💻 Coding Problems
-
-This section compiles various coding challenges and their solutions.
-
-- [[BINARY SEARCH 1]]
+# Coding Books
+- [[C++ CONCURRENCY IN ACTION 1]]

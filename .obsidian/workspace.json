@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "1a73eba4f59144ae",
+        "id": "8c46855080e1120d",
         "type": "tabs",
         "children": [
           {
-            "id": "fa3418650a8bc636",
+            "id": "9af54ed23ff62470",
             "type": "leaf",
             "state": {
               "type": "empty",
@@ -163,18 +163,20 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "fa3418650a8bc636",
+  "active": "9af54ed23ff62470",
   "lastOpenFiles": [
-    "Markets/OPTIONS 2.md",
-    "TAGS/Finance.md",
-    "Markets/OPTIONS 1.md",
-    "TAGS/Learning.md",
+    "Coding/C++ CONCURRENCY IN ACTION 1.md",
+    "RESOURCES/Pasted image 20260116224734.png",
+    "TAGS/Books.md",
     "TAGS/Tech.md",
+    "TAGS/Finance.md",
+    "TAGS/Learning.md",
     "TAGS/Gym.md",
+    "Markets/OPTIONS 2.md",
+    "Markets/OPTIONS 1.md",
     "Money Management/PERSONAL FINANCE 1.md",
     "LLM/FINE TUNING 1.md",
     "Untitled.base",
-    "Coding/BINARY SEARCH 1.md",
     "Markets",
     "Coding",
     "Learning/COMPENDIUMS 1.md",
