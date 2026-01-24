@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "8c46855080e1120d",
+        "id": "e8e3620d205684a6",
         "type": "tabs",
         "children": [
           {
-            "id": "9af54ed23ff62470",
+            "id": "68ebe9b25fb24efd",
             "type": "leaf",
             "state": {
               "type": "empty",
@@ -163,13 +163,16 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "9af54ed23ff62470",
+  "active": "63ac10a6b70a7632",
   "lastOpenFiles": [
+    "YouTube Videos/LEARNING TO FAIL 1.md",
+    "TAGS/Essays.md",
+    "TAGS/Finance.md",
+    "TAGS/Books.md",
+    "YouTube Videos",
     "Coding/C++ CONCURRENCY IN ACTION 1.md",
     "RESOURCES/Pasted image 20260116224734.png",
-    "TAGS/Books.md",
     "TAGS/Tech.md",
-    "TAGS/Finance.md",
     "TAGS/Learning.md",
     "TAGS/Gym.md",
     "Markets/OPTIONS 2.md",
