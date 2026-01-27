@@ -11,10 +11,14 @@
             "id": "68ebe9b25fb24efd",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "TAGS/Essays.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "Essays"
             }
           }
         ]
@@ -163,7 +167,7 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "63ac10a6b70a7632",
+  "active": "68ebe9b25fb24efd",
   "lastOpenFiles": [
     "YouTube Videos/LEARNING TO FAIL 1.md",
     "TAGS/Essays.md",
