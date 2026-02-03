@@ -17,7 +17,7 @@ RATE_LIMIT_DELAY = 60
 MAX_RATE_LIMIT_ATTEMPTS = 3
 
 # Excluded paths and files
-EXCLUDED_DIRS = {'.git', 'Rough Notes'}
+EXCLUDED_DIRS = {'.git', 'Rough Notes', 'YouTube Videos'}
 EXCLUDED_FILES = {'README.md'}
 TAGS_FOLDER = 'TAGS'
 
@@ -364,7 +364,7 @@ def process_markdown_files():
                 llm_output = call_gemini_api(current_content, is_tags_file)
                 
                 if llm_output is None:
-                    print(f"⚠️  Failed to format {norm_path} due to API issues - retaining original content.")
+                    print(f"Failed to format {norm_path} due to API issues - retaining original content.")
                     new_hashes[norm_path] = current_hash
                     files_skipped_rate_limit += 1
                     continue
@@ -374,19 +374,19 @@ def process_markdown_files():
                 if llm_output_hash != current_hash:
                     with open(filepath, 'w', encoding='utf-8') as f:
                         f.write(llm_output)
-                    print(f"✅ Successfully formatted and updated: {norm_path}")
+                    print(f"Successfully formatted and updated: {norm_path}")
                     new_hashes[norm_path] = llm_output_hash
                     files_processed += 1
                 else:
-                    print(f"ℹ️  No changes made by LLM: {norm_path}")
+                    print(f"No changes made by LLM: {norm_path}")
                     new_hashes[norm_path] = current_hash
     
     save_hashes(new_hashes)
     
     print(f"\n{'='*60}")
     print(f"PROCESSING SUMMARY:")
-    print(f"✅ Files successfully formatted: {files_processed}")
-    print(f"⚠️  Files skipped due to API limits or errors: {files_skipped_rate_limit}")
+    print(f"Files successfully formatted: {files_processed}")
+    print(f"Files skipped due to API limits or errors: {files_skipped_rate_limit}")
     print(f"{'='*60}")
     print(f"Hash file updated. Next run will skip successfully processed files.")
 
